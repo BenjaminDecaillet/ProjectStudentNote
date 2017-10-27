@@ -1,4 +1,4 @@
-package com.ylimielinen.projectstudentnote;
+package com.ylimielinen.projectstudentnote.mainActivity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +13,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ylimielinen.projectstudentnote.R;
+import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final String TAG = "MainActivity";
+    private final String BACK_STACK_ROOT_TAG = "MAIN";
+
+    public static final String PREFS_NAME = "SharedPrefs";
+    public static final String PREFS_USER = "LoggedIn";
+    public static final String PREFS_ADM = "UserPermission";
+    public static final String PREFS_LNG = "Language";
+
+    private Boolean admin;
+    private String loggedInEmail;
+    private StudentEntity loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
