@@ -1,6 +1,7 @@
 package com.ylimielinen.projectstudentnote.db.dao;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by decai on 27.10.2017.
  */
-
+@Dao
 public interface StudentDao {
 
     @Query("SELECT * FROM students WHERE email = :id")
@@ -25,16 +26,16 @@ public interface StudentDao {
     StudentEntity getByIdSync(String id);
 
     @Insert
-    long insert(StudentEntity client) throws SQLiteConstraintException;
+    long insert(StudentEntity student) throws SQLiteConstraintException;
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<StudentEntity> clients);
+    void insertAll(List<StudentEntity> students);
 
     @Update
-    void update(StudentEntity client);
+    void update(StudentEntity student);
 
     @Delete
-    void delete(StudentEntity client);
+    void delete(StudentEntity student);
 
     @Query("DELETE FROM students")
     void deleteAll();

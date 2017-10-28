@@ -1,4 +1,4 @@
-package com.ylimielinen.projectstudentnote.mainActivity;
+package com.ylimielinen.projectstudentnote.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

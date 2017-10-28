@@ -1,6 +1,7 @@
 package com.ylimielinen.projectstudentnote.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
 import com.ylimielinen.projectstudentnote.model.Student;
@@ -8,7 +9,7 @@ import com.ylimielinen.projectstudentnote.model.Student;
 /**
  * Created by decai on 27.10.2017.
  */
-
+@Entity(tableName = "students", primaryKeys = {"email"})
 public class StudentEntity implements Student{
 
     @NonNull
