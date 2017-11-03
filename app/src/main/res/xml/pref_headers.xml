@@ -3,7 +3,7 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.ylimielinen.projectstudentnote.ui.activity.SettingsActivity$LanguagePreferenceFragment"
+        android:fragment="com.ylimielinen.projectstudentnote.ui.activity.SettingsActivityOLD$LanguagePreferenceFragment"
         android:icon="@drawable/ic_language_black_24dp"
         android:title="@string/pref_header_language" />
 
