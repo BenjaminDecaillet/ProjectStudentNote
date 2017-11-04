@@ -18,12 +18,12 @@ import java.util.List;
  */
 @Dao
 public interface StudentDao {
+//
+//    @Query("SELECT * FROM students WHERE idStudent = :id")
+//    StudentEntity getById(int id);
 
-    @Query("SELECT * FROM students WHERE email = :id")
-    LiveData<StudentEntity> getById(String id);
-
-    @Query("SELECT * FROM students WHERE email = :id")
-    StudentEntity getByIdSync(String id);
+    @Query("SELECT * FROM students WHERE email = :email")
+    StudentEntity getByEmail(String email);
 
     @Insert
     long insert(StudentEntity student) throws SQLiteConstraintException;
@@ -41,9 +41,6 @@ public interface StudentDao {
     void deleteAll();
 
     @Query("SELECT * FROM students")
-    LiveData<List<StudentEntity>> getAll();
-
-    @Query("SELECT * FROM students")
-    List<StudentEntity> getAllSync();
+    List<StudentEntity> getAll();
 
 }

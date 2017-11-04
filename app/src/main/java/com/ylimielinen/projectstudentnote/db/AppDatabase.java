@@ -13,6 +13,7 @@ import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 @Database(entities = {StudentEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
-    static final String DATABASE_NAME = "student-database";
+    static final String DATABASE_NAME = "studentDatabase";
+
     public abstract StudentDao studentDao();
 }

@@ -20,13 +20,9 @@ public class DatabaseCreator {
 
     public static final String TAG = "DatabaseCreator";
 
+    private AppDatabase myDb;
+
     private static DatabaseCreator sInstance;
-
-    private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
-
-    private AppDatabase mDb;
-
-    private final AtomicBoolean mInitializing = new AtomicBoolean(true);
 
     // For Singleton instantiation
     private static final Object LOCK = new Object();
@@ -42,16 +38,9 @@ public class DatabaseCreator {
         return sInstance;
     }
 
-    /**
-     * Used to observe when the database initialization is done
-     */
-    public LiveData<Boolean> isDatabaseCreated() {
-        return mIsDatabaseCreated;
-    }
-
     @Nullable
     public AppDatabase getDatabase() {
-        return mDb;
+        return myDb;
     }
 
     /**
@@ -63,11 +52,6 @@ public class DatabaseCreator {
 
         Log.d("DatabaseCreator", "Creating DB from " + Thread.currentThread().getName());
 
-        if (!mInitializing.compareAndSet(true, false)) {
-            return; // Already initializing
-        }
-
-        mIsDatabaseCreated.setValue(false);// Trigger an update to show a loading screen.
         new AsyncTask<Context, Void, Void>() {
 
             @Override
@@ -83,29 +67,19 @@ public class DatabaseCreator {
                 AppDatabase db = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, DATABASE_NAME).build();
 
-                // Add a delay to simulate a long-running operation
-                addDelay();
-
                 // Add some data to the database
-//                DatabaseInitUtil.initializeDb(db);
-//                Log.d(TAG, "DB was populated in thread " + Thread.currentThread().getName());
+                InitDatabase.initializeDb(db);
+                Log.d(TAG, "DB was populated in thread " + Thread.currentThread().getName());
 
-                mDb = db;
+                myDb = db;
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void ignored) {
-                // Now on the main thread, notify observers that the db is created and ready.
-                mIsDatabaseCreated.setValue(true);
+
             }
         }.execute(context.getApplicationContext());
     }
 
-    private void addDelay() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException ignored) {
-        }
-    }
 }

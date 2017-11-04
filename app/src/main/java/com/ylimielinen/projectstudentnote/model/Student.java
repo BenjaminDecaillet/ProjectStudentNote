@@ -5,9 +5,11 @@ package com.ylimielinen.projectstudentnote.model;
  */
 
 public interface Student {
+    //Id
+//    int getIdStudent();
     String getEmail();
+    //Columns
     String getFirstName();
     String getLastName();
     String getPassword();
-    Boolean isAdmin();
 }

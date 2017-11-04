@@ -2,6 +2,7 @@ package com.ylimielinen.projectstudentnote.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import com.ylimielinen.projectstudentnote.model.Student;
@@ -12,29 +13,31 @@ import com.ylimielinen.projectstudentnote.model.Student;
 @Entity(tableName = "students", primaryKeys = {"email"})
 public class StudentEntity implements Student{
 
+//    @NonNull
+//    private int idStudent;
+
     @NonNull
     private String email;
 
-    @ColumnInfo(name = "first_name")
+    @ColumnInfo(name = "firstname")
     private String firstName;
 
-    @ColumnInfo(name = "last_name")
+    @ColumnInfo(name = "lastname")
     private String lastName;
 
+    @ColumnInfo(name = "password")
     private String password;
 
-    @ColumnInfo(name = "admin")
-    private Boolean admin;
 
     public StudentEntity() {
     }
 
     public StudentEntity(Student student) {
+//        idStudent=student.getIdStudent();
         email = student.getEmail();
         firstName = student.getFirstName();
         lastName = student.getLastName();
         password = student.getPassword();
-        admin = student.isAdmin();
     }
 
     @Override
@@ -45,6 +48,11 @@ public class StudentEntity implements Student{
     public void setEmail(String email) {
         this.email = email;
     }
+
+//    @Override
+//    public int getIdStudent() { return idStudent; }
+//
+//    public void setIdStudent(int idStudent) { this.idStudent = idStudent; }
 
     @Override
     public String getFirstName() {
@@ -73,14 +81,6 @@ public class StudentEntity implements Student{
         this.password = password;
     }
 
-    @Override
-    public Boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -88,7 +88,7 @@ public class StudentEntity implements Student{
         if (obj == this) return true;
         if (!(obj instanceof StudentEntity)) return false;
         StudentEntity o = (StudentEntity) obj;
-        return o.getEmail().equals(this.getEmail());
+        return o.getEmail()==this.getEmail();
     }
 
 }

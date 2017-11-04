@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
     public static final String PREFS_LNG = "Language";
 
     private Boolean admin;
-    private String loggedInEmail;
+    private int loggedInEmail;
     private StudentEntity loggedIn;
 
     @Override
