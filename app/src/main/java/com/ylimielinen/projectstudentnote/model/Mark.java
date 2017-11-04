@@ -5,6 +5,10 @@ package com.ylimielinen.projectstudentnote.model;
  */
 
 public interface Mark {
+    //Id
+    Long getIdMark();
+    //Columns
+    String getName();
     String getStudent();
     double getValue();
 }

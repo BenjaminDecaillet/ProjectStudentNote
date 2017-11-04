@@ -18,9 +18,6 @@ import java.util.List;
  */
 @Dao
 public interface StudentDao {
-//
-//    @Query("SELECT * FROM students WHERE idStudent = :id")
-//    StudentEntity getById(int id);
 
     @Query("SELECT * FROM students WHERE email = :email")
     StudentEntity getByEmail(String email);

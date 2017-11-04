@@ -5,6 +5,10 @@ package com.ylimielinen.projectstudentnote.model;
  */
 
 public interface Subject {
+    //Id
+    Long getIdSubject();
+    //Columns
     String getName();
     String getDescription();
+    String getStudent();
 }

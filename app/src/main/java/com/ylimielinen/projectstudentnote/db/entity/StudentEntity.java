@@ -13,9 +13,6 @@ import com.ylimielinen.projectstudentnote.model.Student;
 @Entity(tableName = "students", primaryKeys = {"email"})
 public class StudentEntity implements Student{
 
-//    @NonNull
-//    private int idStudent;
-
     @NonNull
     private String email;
 
@@ -25,7 +22,6 @@ public class StudentEntity implements Student{
     @ColumnInfo(name = "lastname")
     private String lastName;
 
-    @ColumnInfo(name = "password")
     private String password;
 
 
@@ -33,7 +29,6 @@ public class StudentEntity implements Student{
     }
 
     public StudentEntity(Student student) {
-//        idStudent=student.getIdStudent();
         email = student.getEmail();
         firstName = student.getFirstName();
         lastName = student.getLastName();
@@ -48,11 +43,6 @@ public class StudentEntity implements Student{
     public void setEmail(String email) {
         this.email = email;
     }
-
-//    @Override
-//    public int getIdStudent() { return idStudent; }
-//
-//    public void setIdStudent(int idStudent) { this.idStudent = idStudent; }
 
     @Override
     public String getFirstName() {
@@ -80,7 +70,6 @@ public class StudentEntity implements Student{
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     @Override
     public boolean equals(Object obj) {
