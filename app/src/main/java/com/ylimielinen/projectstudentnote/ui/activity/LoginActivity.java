@@ -2,7 +2,6 @@ package com.ylimielinen.projectstudentnote.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,12 +10,10 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
-
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {

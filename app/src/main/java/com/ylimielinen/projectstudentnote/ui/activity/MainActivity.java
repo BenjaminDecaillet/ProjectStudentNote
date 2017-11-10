@@ -1,6 +1,7 @@
 package com.ylimielinen.projectstudentnote.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,9 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.TextView;
 import com.ylimielinen.projectstudentnote.R;
+import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,13 +32,17 @@ public class MainActivity extends AppCompatActivity
     public static final String PREFS_LNG = "Language";
 
     private Boolean admin;
-    private int loggedInEmail;
+    private String loggedInEmail;
     private StudentEntity loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
+        loggedInEmail = settings.getString(PREFS_USER, null);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,6 +63,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        initNavDrawerContent();
     }
 
     @Override
@@ -102,10 +110,45 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
+        }else if(id == R.id.nav_logout){
+            // Log user out
+            logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initNavDrawerContent(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final View headerLayout = navigationView.getHeaderView(0);
+        TextView studentEmail = (TextView) headerLayout.findViewById(R.id.userEmail);
+        TextView studentName = (TextView) headerLayout.findViewById(R.id.userName);
+
+        try {
+            loggedIn = new GetStudent(getApplicationContext()).execute(loggedInEmail).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(loggedIn != null) {
+            studentEmail.setText(loggedIn.getEmail());
+            studentName.setText(String.format("%s %s", loggedIn.getFirstName(), loggedIn.getLastName()));
+        }
+    }
+
+    private void logout() {
+        // Delete user informations
+        SharedPreferences.Editor editor = getSharedPreferences(MainActivity.PREFS_NAME, 0).edit();
+        editor.remove(PREFS_USER);
+        editor.remove(PREFS_ADM);
+        editor.apply();
+
+        // Start login activity
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
     }
 }

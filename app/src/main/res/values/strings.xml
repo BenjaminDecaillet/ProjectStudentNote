@@ -35,4 +35,7 @@
     <!-- Example General settings -->
     <string name="pref_header_language">Language</string>
     <string name="settings_main_group">Main</string>
+    <string name="action_logout">Logout</string>
+    <string name="logout_msg">Do you really want to logout?</string>
+    <string name="action_cancel">Cancel</string>
 </resources>
