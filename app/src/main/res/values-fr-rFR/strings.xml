@@ -1,23 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">yGrades</string>
-
-    <string-array name="pref_language_list_titles">
+    <string-array name="lang_full_names">
         <item>Anglais</item>
         <item>Français</item>
     </string-array>
-
-    <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
-    <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
-
     <string name="action_settings">Paramètres</string>
-
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="prompt_password">Mot de passe</string>
+    <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
+    <string name="prompt_email">Email</string>
     <string name="action_sign_in">Connexion</string>
     <string name="action_sign_in_short">Connexion</string>
     <string name="error_invalid_email">Cette adresse email est invalide ou déjà utilisée.</string>
-    <string name="error_invalid_password">Ce mot de passe est trop court (&lt;5 caractères)</string>
+    <string name="error_invalid_password">Ce mot de passe est trop court (&lt; 5 caractères)</string>
     <string name="error_incorrect_password">Ce mot de passe est incorrect</string>
     <string name="error_field_required">Ce champ est requis</string>
+    <string name="pref_title_language">Changer la langue principale</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="pref_header_language">Langue</string>
+    <string name="settings_main_group">Principaux paramètres</string>
 </resources>

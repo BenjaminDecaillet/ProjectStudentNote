@@ -9,7 +9,7 @@
         android:id="@+id/spinnerLanguages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/pref_language_list_titles"
+        android:entries="@array/lang_full_names"
         android:prompt="@string/pref_title_language"
         android:padding="10dp" />
 </LinearLayout>

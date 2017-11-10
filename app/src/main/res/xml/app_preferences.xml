@@ -2,14 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Main">
+        android:title="@string/settings_main_group">
         <ListPreference
-            android:key="languageList"
+            android:key="Language"
             android:title="@string/pref_header_language"
             android:summary="%s"
             android:defaultValue="true"
-            android:entryValues="@array/pref_language_list_values"
-            android:entries="@array/pref_language_list_titles">
+            android:entryValues="@array/lang_values"
+            android:entries="@array/lang_full_names">
 
         </ListPreference>
     </PreferenceCategory>
