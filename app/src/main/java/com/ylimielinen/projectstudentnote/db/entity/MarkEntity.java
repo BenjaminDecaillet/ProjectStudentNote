@@ -1,6 +1,5 @@
 package com.ylimielinen.projectstudentnote.db.entity;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
@@ -8,21 +7,28 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import com.ylimielinen.projectstudentnote.model.Mark;
-import com.ylimielinen.projectstudentnote.model.Student;
+
 
 /**
  * Created by decai on 04.11.2017.
  */
 
 @Entity(tableName = "marks",
-        foreignKeys =
-        @ForeignKey(
-                entity = StudentEntity.class,
-                parentColumns = "email",
-                childColumns = "student",
-                onDelete = ForeignKey.CASCADE
-        ),
-        indices = { @Index( value = {"student"}) }
+        foreignKeys = {
+                @ForeignKey(
+                        entity = StudentEntity.class,
+                        parentColumns = "email",
+                        childColumns = "student",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = SubjectEntity.class,
+                        parentColumns = "idSubject",
+                        childColumns = "subject",
+                        onDelete = ForeignKey.CASCADE
+                )
+        },
+        indices = { @Index( value = {"student"}),@Index( value = {"subject"}) }
 )
 public class MarkEntity implements Mark{
 
@@ -31,6 +37,7 @@ public class MarkEntity implements Mark{
     private String name;
     private Double value;
     private String student;
+    private Long subject;
 
 
     public MarkEntity(Mark mark) {
@@ -38,6 +45,7 @@ public class MarkEntity implements Mark{
         name = mark.getName();
         value = mark.getValue();
         student = mark.getStudent();
+        subject = mark.getSubject();
     }
 
     public MarkEntity() {
@@ -59,9 +67,14 @@ public class MarkEntity implements Mark{
     public void setStudent(String student) { this.student = student; }
 
     @Override
-    public double getValue() { return value; }
+    public Double getValue() { return value; }
 
-    public void setValue(double value) { this.value = value; }
+    public void setValue(Double value) { this.value = value; }
+
+    @Override
+    public Long getSubject() { return subject; }
+
+    public void setSubject(Long subject) { this.subject = subject; }
 
     @Override
     public boolean equals(Object obj) {

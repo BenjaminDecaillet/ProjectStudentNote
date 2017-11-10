@@ -25,7 +25,7 @@ public abstract class SubjectDao {
     public abstract SubjectEntity getByIdSync(Long idSubject);
 
     @Insert
-    public abstract long insert(SubjectEntity subject);
+    public abstract Long insert(SubjectEntity subject);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertAll(List<SubjectEntity> subjects);

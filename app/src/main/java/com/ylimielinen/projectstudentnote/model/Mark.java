@@ -10,5 +10,6 @@ public interface Mark {
     //Columns
     String getName();
     String getStudent();
-    double getValue();
+    Double getValue();
+    Long getSubject();
 }

@@ -1,27 +1,27 @@
 package com.ylimielinen.projectstudentnote.db.async.mark;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
+import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 
 /**
- * Created by decai on 27.10.2017.
+ * Created by decai on 10.11.2017.
  */
 
-public class CreateMark extends AsyncTask<MarkEntity, Void, Long> {
+public class GetMark extends AsyncTask<Long, Void, MarkEntity> {
 
     private Context mContext;
 
-    public CreateMark(Context context) {
+    public GetMark(Context context) {
         mContext = context;
     }
 
     @Override
-    protected Long doInBackground(MarkEntity... markEntities) {
+    protected MarkEntity doInBackground(Long... params) {
         DatabaseCreator dbCreator = DatabaseCreator.getInstance(mContext);
-        return dbCreator.getDatabase().markDao().insert(markEntities[0]);
+        return dbCreator.getDatabase().markDao().getByIdSync(params[0]);
     }
 }

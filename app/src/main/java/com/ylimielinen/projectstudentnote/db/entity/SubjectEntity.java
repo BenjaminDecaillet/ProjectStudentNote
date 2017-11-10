@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.ylimielinen.projectstudentnote.model.Subject;
 
@@ -18,7 +19,8 @@ import com.ylimielinen.projectstudentnote.model.Subject;
                 childColumns = "student",
                 onDelete = ForeignKey.CASCADE
         ),
-        indices = { @Index( value = {"student"}) }
+        indices = { @Index( value = {"student"}),
+        }
 )
 public class SubjectEntity implements Subject {
 
