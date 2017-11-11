@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SubjectsActivity extends AppCompatActivity {
+public class SubjectsActivity extends BaseActivity {
 
     private static final String TAG = "SubjectsActivity";
 
@@ -37,6 +37,7 @@ public class SubjectsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setStyle(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
         setTitle(R.string.title_activity_subjects);

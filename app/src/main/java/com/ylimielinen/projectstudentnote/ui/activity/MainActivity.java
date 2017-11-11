@@ -20,7 +20,7 @@ import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = "MainActivity";
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setStyle(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

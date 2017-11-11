@@ -18,14 +18,20 @@ import android.view.View;
 
 import java.util.Locale;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
     private static final String TAG = "SettingsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Init activity
+        setStyle(true);
         super.onCreate(savedInstanceState);
+        //setTheme(R.style.AppTheme_Red);
+
+        //setStyle(this);
+
         setContentView(R.layout.activity_settings);
+
         setTitle(R.string.title_activity_settings);
 
         // Action bar for settings
@@ -83,14 +89,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             if(s.equals("Theme")){
-                // Change app theme
-                String theme = sharedPreferences.getString(MainActivity.PREFS_THEME, "blue");
+                // Restart the activity to make theme change happens
+                Intent intent = getActivity().getIntent();
+                startActivity(intent);
                 getActivity().finish();
-                final Intent intent = getActivity().getIntent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                getActivity().startActivity(intent);
             }
-
         }
 
         private void updateLanguage(Context baseContext, String lang) {
