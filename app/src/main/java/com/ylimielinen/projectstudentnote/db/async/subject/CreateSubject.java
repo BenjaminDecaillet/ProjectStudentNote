@@ -11,7 +11,7 @@ import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
  * Created by decai on 04.11.2017.
  */
 
-public class CreateSubject extends AsyncTask<SubjectEntity, Void, Long> {
+public class CreateSubject extends AsyncTask<SubjectEntity, Void, Boolean> {
 
     private Context mContext;
 
@@ -20,9 +20,14 @@ public class CreateSubject extends AsyncTask<SubjectEntity, Void, Long> {
     }
 
     @Override
-    protected Long doInBackground(SubjectEntity... params) throws SQLiteConstraintException {
+    protected Boolean doInBackground(SubjectEntity... params) {
         DatabaseCreator dbCreator = DatabaseCreator.getInstance(mContext);
-        return dbCreator.getDatabase().subjectDao().insert(params[0]);
+        boolean result = true;
+        try {
+            dbCreator.getDatabase().subjectDao().insert(params[0]);
+        }catch(SQLiteConstraintException e) {
+            result = false;
+        }
+        return result;
     }
-
 }

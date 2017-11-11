@@ -1,7 +1,6 @@
 package com.ylimielinen.projectstudentnote.ui.activity;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -10,7 +9,7 @@ import com.ylimielinen.projectstudentnote.db.async.subject.GetMarks;
 import com.ylimielinen.projectstudentnote.db.async.subject.GetSubject;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
-import com.ylimielinen.projectstudentnote.ui.adaptater.MarkAdaptater;
+import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -58,7 +57,7 @@ public class MarkActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        MarkAdaptater adapter = new MarkAdaptater(MarkActivity.this, cMarksOfSubject);
+        MarkAdapter adapter = new MarkAdapter(MarkActivity.this, cMarksOfSubject);
         oMarkList.setAdapter(adapter);
     }
 }

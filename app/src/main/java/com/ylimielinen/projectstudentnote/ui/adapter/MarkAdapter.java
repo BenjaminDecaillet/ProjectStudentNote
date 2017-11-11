@@ -1,4 +1,4 @@
-package com.ylimielinen.projectstudentnote.ui.adaptater;
+package com.ylimielinen.projectstudentnote.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 
 import java.util.List;
 
@@ -17,9 +16,9 @@ import java.util.List;
  * Created by decai on 11.11.2017.
  */
 
-public class MarkAdaptater  extends ArrayAdapter<MarkEntity> {
+public class MarkAdapter extends ArrayAdapter<MarkEntity> {
 
-    public MarkAdaptater(Context context, List<MarkEntity> marks) {
+    public MarkAdapter(Context context, List<MarkEntity> marks) {
         super(context, 0, marks);
     }
 

@@ -23,24 +23,9 @@
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.activity.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.activity.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ylimielinen.projectstudentnote.ui.activity.MainActivity" />
-        </activity>
-        <activity android:name=".ui.activity.SubjectsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ylimielinen.projectstudentnote.ui.activity.MainActivity" />
-        </activity>
         <activity android:name=".ui.activity.MarkActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ylimielinen.projectstudentnote.ui.activity.SubjectsActivity" />
         </activity>
+        <activity android:name=".ui.activity.subject.EditSubjectActivity"></activity>
     </application>
 
 </manifest>

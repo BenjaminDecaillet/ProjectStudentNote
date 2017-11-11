@@ -3,14 +3,13 @@ package com.ylimielinen.projectstudentnote.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +17,9 @@ import android.widget.TextView;
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
+import com.ylimielinen.projectstudentnote.ui.fragment.SettingsFragment;
+import com.ylimielinen.projectstudentnote.ui.fragment.subject.SubjectsFragment;
+
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends BaseActivity
@@ -47,7 +49,7 @@ public class MainActivity extends BaseActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +57,7 @@ public class MainActivity extends BaseActivity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,9 +72,12 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
+        // TODO: Avoid to re-open login screen and avoid to empty subjects list
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -92,14 +97,6 @@ public class MainActivity extends BaseActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -109,18 +106,39 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        Fragment fragment = null;
+        Class fragmentClass = null;
+        String fragmentTag = null;
+
         if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+            /*Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-            return true;
+            return true;*/
+            //SettingsFragment sFragment = SettingsFragment.newInstance();
+
+
+            fragmentManager.beginTransaction().replace(R.id.flContent, new SettingsFragment()).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }else if(id == R.id.nav_logout){
             // Log user out
             logout();
         }else if (id == R.id.nav_subjects){
             //Display List Subject
-            Intent intent = new Intent(this, SubjectsActivity.class);
+            /*Intent intent = new Intent(this, SubjectsActivity.class);
             startActivity(intent);
-            return true;
+            return true;*/
+            fragmentClass = SubjectsFragment.class;
+            fragmentTag = "subjects";
+
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

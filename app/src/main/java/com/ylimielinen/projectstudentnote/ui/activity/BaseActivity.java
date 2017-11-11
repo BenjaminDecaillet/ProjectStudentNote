@@ -28,6 +28,21 @@ public abstract class BaseActivity extends AppCompatActivity {
                 else
                     setTheme(R.style.AppTheme_Red_NoActionBar);
                 break;
+            case "yellow":
+                if(actionBar) {
+                    setTheme(R.style.AppTheme_Yellow);
+                }
+                else
+                    setTheme(R.style.AppTheme_Yellow_NoActionBar);
+                break;
+            case "green":
+                if(actionBar) {
+                    setTheme(R.style.AppTheme_Green);
+                }
+                else
+                    setTheme(R.style.AppTheme_Green_NoActionBar);
+                break;
+            default:
             case "blue":
                 if(actionBar) {
                     setTheme(R.style.AppTheme);

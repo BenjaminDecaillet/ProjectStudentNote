@@ -42,6 +42,9 @@ public abstract class SubjectDao {
     @Query("SELECT * FROM subjects")
     public abstract LiveData<List<SubjectEntity>> getAll();
 
+    @Query("SELECT * FROM subjects")
+    public abstract List<SubjectEntity> getAllSync();
+
     @Query("SELECT * FROM subjects WHERE student=:student")
     public abstract LiveData<List<SubjectEntity>> getSubjectsOfStudent(String student);
 

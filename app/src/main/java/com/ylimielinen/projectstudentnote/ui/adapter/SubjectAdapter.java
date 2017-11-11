@@ -1,10 +1,9 @@
-package com.ylimielinen.projectstudentnote.ui.adaptater;
+package com.ylimielinen.projectstudentnote.ui.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
@@ -16,12 +15,13 @@ import java.util.List;
  * Created by decai on 11.11.2017.
  */
 
-public class SubjectAdaptater extends ArrayAdapter<SubjectEntity> {
+public class SubjectAdapter extends RecyclerView.Adapter {
+    List<SubjectEntity> subjects;
 
-    public SubjectAdaptater(Context context, List<SubjectEntity> subjects) {
-        super(context, 0, subjects);
+    public SubjectAdapter(List<SubjectEntity> subjects) {
+        this.subjects = subjects;
     }
-
+/*
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -45,11 +45,35 @@ public class SubjectAdaptater extends ArrayAdapter<SubjectEntity> {
 
         return convertView;
     }
+*/
 
-    public class SubjectViewHolder {
-//        public TextView idSubject;
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView  = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_subject, parent, false);
+        return new SubjectViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        SubjectEntity subject = subjects.get(position);
+        SubjectViewHolder sbvh = ((SubjectViewHolder)holder);
+        sbvh.subjectName.setText(subject.getName());
+        sbvh.subjectDescription.setText(subject.getDescription());
+    }
+
+    @Override
+    public int getItemCount() {
+        return subjects.size();
+    }
+
+    public static class SubjectViewHolder extends RecyclerView.ViewHolder {
         public TextView subjectName;
         public TextView subjectDescription;
+
+        public SubjectViewHolder(View itemView) {
+            super(itemView);
+            this.subjectName = (TextView) itemView.findViewById(R.id.subjectName);
+            this.subjectDescription = (TextView) itemView.findViewById(R.id.subjectDescription);
+        }
     }
 }
-

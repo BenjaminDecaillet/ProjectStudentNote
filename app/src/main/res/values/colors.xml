@@ -5,7 +5,17 @@
     <color name="colorAccent">#FF4081</color>
 
     <!-- Red Theme -->
-    <color name="colorPrimaryRed">#d32f2f</color>
-    <color name="colorPrimaryDarkRed">#9a0007</color>
-    <color name="colorAccentRed">#ff6659</color>
+    <color name="colorPrimaryRed">#ff5722</color>
+    <color name="colorPrimaryDarkRed">#e64a19</color>
+    <color name="colorAccentRed">#536dfe</color>
+
+    <!-- Yellow Theme -->
+    <color name="colorPrimaryYellow">#ffc107</color>
+    <color name="colorPrimaryDarkYellow">#ffa000</color>
+    <color name="colorAccentYellow">#536dfe</color>
+
+    <!-- Teal Theme -->
+    <color name="colorPrimaryGreen">#009688</color>
+    <color name="colorPrimaryDarkGreen">#00796b</color>
+    <color name="colorAccentGreen">#ffd740</color>
 </resources>
