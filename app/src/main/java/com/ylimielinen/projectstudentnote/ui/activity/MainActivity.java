@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     public static final String PREFS_USER = "LoggedIn";
     public static final String PREFS_ADM = "UserPermission";
     public static final String PREFS_LNG = "Language";
+    public static final String PREFS_THEME = "Theme";
 
     private Boolean admin;
     private String loggedInEmail;

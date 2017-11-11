@@ -2,7 +2,6 @@ package com.ylimielinen.projectstudentnote.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,7 +15,7 @@ import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 import java.util.concurrent.ExecutionException;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 

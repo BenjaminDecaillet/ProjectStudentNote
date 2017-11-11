@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- Red Theme -->
+    <color name="colorPrimaryRed">#d32f2f</color>
+    <color name="colorPrimaryDarkRed">#9a0007</color>
+    <color name="colorAccentRed">#ff6659</color>
 </resources>

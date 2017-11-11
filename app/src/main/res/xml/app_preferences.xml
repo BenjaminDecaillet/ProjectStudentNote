@@ -9,8 +9,13 @@
             android:summary="%s"
             android:defaultValue="true"
             android:entryValues="@array/lang_values"
-            android:entries="@array/lang_full_names">
-
-        </ListPreference>
+            android:entries="@array/lang_full_names"/>
+        <ListPreference
+            android:key="Theme"
+            android:title="@string/pref_header_theme"
+            android:summary="%s"
+            android:defaultValue="true"
+            android:entryValues="@array/colors_values"
+            android:entries="@array/colors_full_name"/>
     </PreferenceCategory>
 </PreferenceScreen>
