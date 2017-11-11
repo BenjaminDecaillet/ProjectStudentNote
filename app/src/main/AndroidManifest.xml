@@ -36,6 +36,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ylimielinen.projectstudentnote.ui.activity.MainActivity" />
         </activity>
+        <activity android:name=".ui.activity.MarkActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ylimielinen.projectstudentnote.ui.activity.SubjectsActivity" />
+        </activity>
     </application>
 
 </manifest>
