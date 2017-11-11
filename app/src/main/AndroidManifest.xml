@@ -31,7 +31,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ylimielinen.projectstudentnote.ui.activity.MainActivity" />
         </activity>
-        <activity android:name=".ui.activity.SubjectsActivity"></activity>
+        <activity android:name=".ui.activity.SubjectsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ylimielinen.projectstudentnote.ui.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
