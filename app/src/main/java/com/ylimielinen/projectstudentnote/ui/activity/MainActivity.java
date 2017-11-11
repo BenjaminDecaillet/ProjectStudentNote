@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
-        loggedInEmail = settings.getString(PREFS_USER, null);
+        loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,6 +114,11 @@ public class MainActivity extends AppCompatActivity
         }else if(id == R.id.nav_logout){
             // Log user out
             logout();
+        }else if (id == R.id.nav_subjects){
+            //Display List Subject
+            Intent intent = new Intent(this, SubjectsActivity.class);
+            startActivity(intent);
+            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

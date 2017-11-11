@@ -38,4 +38,6 @@
     <string name="action_logout">Logout</string>
     <string name="logout_msg">Do you really want to logout?</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_subject">Subject</string>
+    <string name="title_activity_subjects">Subjects</string>
 </resources>

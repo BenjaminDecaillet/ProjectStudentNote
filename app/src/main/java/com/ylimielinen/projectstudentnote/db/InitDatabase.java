@@ -36,7 +36,7 @@ public class InitDatabase {
         student2.setEmail("ben@hevs.ch");
         student2.setFirstName("Benjamin");
         student2.setLastName("Décaillet");
-        student2.setPassword("12345678");
+        student2.setPassword("ben");
         students.add(student2);
 
         SubjectEntity subject1 = new SubjectEntity();
