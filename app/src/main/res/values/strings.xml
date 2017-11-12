@@ -69,4 +69,9 @@
     <string name="error_value_empty">The \'Value\' field can\'t be empty</string>
     <string name="delete">Delete</string>
     <string name="dialog_delete_mark">Do you really want to delete this mark?</string>
+    <string name="subjectName">Subject name</string>
+    <string name="subjectDescription">Subject description</string>
+    <string name="title_fragment_subject_create">Create a new Subject</string>
+    <string name="title_fragment_subject_edit">Edit a subject</string>
+    <string name="dialog_delete_subject">Do you really want to delete this subject?</string>
 </resources>

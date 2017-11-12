@@ -39,6 +39,7 @@ public class SubjectsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainActivity) getActivity()).setTitle(getString(R.string.title_fragment_subjects));
+
     }
 
     @Override
@@ -51,9 +52,13 @@ public class SubjectsFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Add a new subject
-                Snackbar.make(view, "Add a new subject", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                EditSubjectFragment esf = EditSubjectFragment.newInstance(null);
+
+                // Create the fragment and display it
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.flContent, esf, "EditSubject")
+                        .addToBackStack("EditSubject")
+                        .commit();
             }
         });
 
@@ -72,7 +77,6 @@ public class SubjectsFragment extends Fragment {
 
             // On click listener
             recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-                // TODO: display marks linked to this subject and the student IN A FRAGMENT
                 @Override
                 public void onClick(View view, int position) {
                     SubjectEntity subject = subjects.get(position);
@@ -91,8 +95,14 @@ public class SubjectsFragment extends Fragment {
                 // TODO: Ask to delete the subject
                 @Override
                 public void onLongClick(View view, int position) {
+                    // on long click => open modification view
                     SubjectEntity subject = subjects.get(position);
-                    Toast.makeText(getContext(), "Long click on " + subject.getName(), Toast.LENGTH_SHORT).show();
+                    EditSubjectFragment esf = EditSubjectFragment.newInstance(subject);
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.flContent, esf, "EditSubject")
+                            .addToBackStack("EditSubject")
+                            .commit();
                 }
             }));
         } catch (InterruptedException e) {

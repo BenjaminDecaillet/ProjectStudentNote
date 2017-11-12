@@ -53,17 +53,6 @@ public class HomeFragment extends Fragment {
         // Create the fragment view
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-//        // Add button action
-//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabHome);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // TODO: Add a new subject
-//                Snackbar.make(view, "Add a new subject", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         // Add marks list
         recyclerView = (RecyclerView) view.findViewById(R.id.homeRecyclerView);
         try {

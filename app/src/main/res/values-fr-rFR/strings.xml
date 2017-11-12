@@ -44,4 +44,9 @@
     <string name="error_value_empty">Le champ \'Valeur\' ne peut pas être vide</string>
     <string name="delete">Supprimer</string>
     <string name="dialog_delete_mark">Voulez-vous vraiment supprimer cette note?</string>
+    <string name="subjectName">Nom de la matière</string>
+    <string name="subjectDescription">Description de la matière</string>
+    <string name="title_fragment_subject_create">Ajouter une matière</string>
+    <string name="title_fragment_subject_edit">Modifier une matière</string>
+    <string name="dialog_delete_subject">Voulez-vous vraiment supprimer cette matière?</string>
 </resources>
