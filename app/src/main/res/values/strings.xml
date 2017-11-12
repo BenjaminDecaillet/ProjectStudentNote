@@ -67,4 +67,6 @@
     <string name="title_fragment_mark_edit">Edit a mark</string>
     <string name="error_name_empty">The \'Name\' field can\'t be empty</string>
     <string name="error_value_empty">The \'Value\' field can\'t be empty</string>
+    <string name="delete">Delete</string>
+    <string name="dialog_delete_mark">Do you really want to delete this mark?</string>
 </resources>

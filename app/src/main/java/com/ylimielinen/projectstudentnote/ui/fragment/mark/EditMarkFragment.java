@@ -1,11 +1,13 @@
 package com.ylimielinen.projectstudentnote.ui.fragment.mark;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.mark.CreateMark;
+import com.ylimielinen.projectstudentnote.db.async.mark.DeleteMark;
 import com.ylimielinen.projectstudentnote.db.async.mark.GetMark;
 import com.ylimielinen.projectstudentnote.db.async.mark.UpdateMark;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
@@ -33,6 +36,7 @@ public class EditMarkFragment extends Fragment {
     private MarkEntity mark;
     private EditText etName;
     private EditText etValue;
+    private Button deleteBtn;
 
     public EditMarkFragment() {
         // Required empty public constructor
@@ -119,6 +123,37 @@ public class EditMarkFragment extends Fragment {
                 }
             }
         });
+
+        deleteBtn = (Button) getActivity().findViewById(R.id.deleteMark);
+        if(!editMode)
+            deleteBtn.setVisibility(View.GONE);
+        else{
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle(getString(R.string.delete));
+                    alertDialog.setCancelable(false);
+                    alertDialog.setMessage(getString(R.string.dialog_delete_mark));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.delete), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new DeleteMark(getContext()).execute(mark);
+                            getActivity().onBackPressed();
+                        }
+                    });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                    return;
+                }
+            });
+        }
+
     }
 
     private boolean saveChanges(String name, String value){

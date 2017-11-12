@@ -42,4 +42,6 @@
     <string name="hello_blank_fragment">Hello fragment vide</string>
     <string name="error_name_empty">Le champ \'Nom\' ne peut pas être vide</string>
     <string name="error_value_empty">Le champ \'Valeur\' ne peut pas être vide</string>
+    <string name="delete">Supprimer</string>
+    <string name="dialog_delete_mark">Voulez-vous vraiment supprimer cette note?</string>
 </resources>
