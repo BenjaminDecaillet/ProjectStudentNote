@@ -22,8 +22,10 @@ import com.ylimielinen.projectstudentnote.db.async.student.GetSubjects;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
+import com.ylimielinen.projectstudentnote.ui.adapter.HomeMarkAdapter;
 import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
 import com.ylimielinen.projectstudentnote.ui.adapter.SubjectAdapter;
+import com.ylimielinen.projectstudentnote.ui.fragment.mark.EditMarkFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.mark.MarksFragment;
 import com.ylimielinen.projectstudentnote.util.ClickListener;
 import com.ylimielinen.projectstudentnote.util.RecyclerTouchListener;
@@ -64,33 +66,27 @@ public class HomeFragment extends Fragment {
             SharedPreferences settings = getContext().getSharedPreferences(MainActivity.PREFS_NAME, 0);
             String loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
             marks = new GetAllMarksOfStudent(getContext()).execute(loggedInEmail).get();
-            recyclerView.setAdapter(new MarkAdapter(marks));
 
-//            // On click listener
-//            recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
-//                // TODO: display marks linked to this subject and the student IN A FRAGMENT
-//                @Override
-//                public void onClick(View view, int position) {
-//                    SubjectEntity subject = subjects.get(position);
-//
-//                    MarksFragment mf = new MarksFragment();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putLong("idSubject", subject.getIdSubject());
-//                    mf.setArguments(bundle);
-//
-//                    getActivity().getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.flContent, mf, "ShowMarks")
-//                            .addToBackStack("marksStudentLoggedIn")
-//                            .commit();
-//                }
-//
-//                // TODO: Ask to delete the subject
-//                @Override
-//                public void onLongClick(View view, int position) {
-//                    SubjectEntity subject = subjects.get(position);
-//                    Toast.makeText(getContext(), "Long click on " + subject.getName(), Toast.LENGTH_SHORT).show();
-//                }
-//            }));
+            recyclerView.setAdapter(new HomeMarkAdapter(marks, getContext()));
+
+            // On click listener
+            recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
+                @Override
+                public void onClick(View view, int position) {}
+
+                @Override
+                public void onLongClick(View view, int position) {
+                    // on long click => open modification view
+                    MarkEntity mark = marks.get(position);
+                    EditMarkFragment emf = EditMarkFragment.newInstance(mark);
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.flContent, emf, "EditMark")
+                            .addToBackStack("EditMark")
+                            .commit();
+                }
+            }));
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
