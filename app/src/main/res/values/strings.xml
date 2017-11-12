@@ -59,4 +59,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="markName">Exam name</string>
+    <string name="markValue">Exam mark</string>
+    <string name="save">Save</string>
+    <string name="title_fragment_mark_create">Create a new mark</string>
+    <string name="title_fragment_mark_edit">Edit a mark</string>
 </resources>

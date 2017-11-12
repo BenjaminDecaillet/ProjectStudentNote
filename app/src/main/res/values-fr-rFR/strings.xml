@@ -33,4 +33,9 @@
     <string name="action_subject">Sujet</string>
     <string name="title_fragment_subjects">Sujets</string>
     <string name="title_fragment_marks">Notes</string>
+    <string name="markName">Nom de l\'examen</string>
+    <string name="markValue">Note obtenue</string>
+    <string name="save">Sauvegarder</string>
+    <string name="title_fragment_mark_create">Ajouter une note</string>
+    <string name="title_fragment_mark_edit">Modifier une note</string>
 </resources>
