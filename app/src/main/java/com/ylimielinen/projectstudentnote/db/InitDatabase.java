@@ -72,6 +72,10 @@ public class InitDatabase {
         MarkEntity mark2 = new MarkEntity();
         MarkEntity mark3 = new MarkEntity();
         MarkEntity mark4 = new MarkEntity();
+        MarkEntity mark5 = new MarkEntity();
+        MarkEntity mark6 = new MarkEntity();
+        MarkEntity mark7 = new MarkEntity();
+        MarkEntity mark8 = new MarkEntity();
 
         mark1.setName("Contrôle Continu 1");
         mark1.setStudent(students.get(0).getEmail());
@@ -79,23 +83,47 @@ public class InitDatabase {
         mark1.setValue(5.5);
         marks.add(mark1);
 
-        mark2.setName("Présentation GPO");
+        mark2.setName("Modul Exam");
         mark2.setStudent(students.get(0).getEmail());
-        mark2.setSubject(subjects.get(1).getIdSubject());
+        mark2.setSubject(subjects.get(0).getIdSubject());
         mark2.setValue(5.0);
         marks.add(mark2);
 
-        mark3.setName("Contrôle continu");
-        mark3.setStudent(students.get(1).getEmail());
-        mark3.setSubject(subjects.get(2).getIdSubject());
-        mark3.setValue(4.5);
+        mark3.setName("Présentation GPO");
+        mark3.setStudent(students.get(0).getEmail());
+        mark3.setSubject(subjects.get(1).getIdSubject());
+        mark3.setValue(5.0);
         marks.add(mark3);
 
-        mark4.setName("Contrôle continu 1");
-        mark4.setStudent(students.get(1).getEmail());
-        mark4.setSubject(subjects.get(3).getIdSubject());
-        mark4.setValue(5.4);
+        mark4.setName("Modul Exam");
+        mark4.setStudent(students.get(0).getEmail());
+        mark4.setSubject(subjects.get(1).getIdSubject());
+        mark4.setValue(5.1);
         marks.add(mark4);
+
+        mark5.setName("Contrôle continu");
+        mark5.setStudent(students.get(1).getEmail());
+        mark5.setSubject(subjects.get(2).getIdSubject());
+        mark5.setValue(4.5);
+        marks.add(mark5);
+
+        mark6.setName("Modul Exam");
+        mark6.setStudent(students.get(1).getEmail());
+        mark6.setSubject(subjects.get(2).getIdSubject());
+        mark6.setValue(5.0);
+        marks.add(mark6);
+
+        mark7.setName("Contrôle continu 1");
+        mark7.setStudent(students.get(1).getEmail());
+        mark7.setSubject(subjects.get(3).getIdSubject());
+        mark7.setValue(5.4);
+        marks.add(mark7);
+
+        mark8.setName("Modul Exam");
+        mark8.setStudent(students.get(1).getEmail());
+        mark8.setSubject(subjects.get(3).getIdSubject());
+        mark8.setValue(5.8);
+        marks.add(mark8);
 
     }
 
