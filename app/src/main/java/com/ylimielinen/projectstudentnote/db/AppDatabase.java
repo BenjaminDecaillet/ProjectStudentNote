@@ -2,7 +2,9 @@ package com.ylimielinen.projectstudentnote.db;
 
 
 import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
 
 import com.ylimielinen.projectstudentnote.db.dao.MarkDao;
 import com.ylimielinen.projectstudentnote.db.dao.StudentDao;

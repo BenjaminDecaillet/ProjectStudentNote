@@ -22,7 +22,7 @@ public class LoginActivity extends BaseActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private DatabaseCreator db;
-
+    StudentEntity student = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setStyle(true);
@@ -31,8 +31,13 @@ public class LoginActivity extends BaseActivity {
 
         final DatabaseCreator databaseCreator = DatabaseCreator.getInstance(this.getApplication());
         databaseCreator.createDb(this.getApplication());
-
-        db = databaseCreator;
+//        try {
+//            student = new GetStudent(getApplicationContext()).execute("ben@hevs.ch").get();
+//            Log.d(TAG, "Test Getting Student ben@hevs.ch ");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            databaseCreator.createDb(this.getApplication());
+//        }
 
         // get the field to be filled by the User
         mEmailView = findViewById(R.id.email);
@@ -77,7 +82,6 @@ public class LoginActivity extends BaseActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            StudentEntity student = null;
             try {
                 student = new GetStudent(getApplicationContext()).execute(email).get();
             } catch (ExecutionException | InterruptedException e) {

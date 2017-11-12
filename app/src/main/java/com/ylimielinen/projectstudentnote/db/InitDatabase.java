@@ -106,17 +106,13 @@ public class InitDatabase {
             db.subjectDao().insertAll(subjects);
             db.markDao().insertAll(marks);
 
-            Log.v("Student INIT","Begining\n ....");
             for (StudentEntity stud:students) {
                 Log.v("STUDENT INIT",stud.getEmail() +" "+ stud.getPassword() );
             }
 
-            Log.v("Subject INIT","Begining\n ...");
             for (SubjectEntity s :subjects) {
                 Log.v("Subject INIT",s.getIdSubject() + " - " + s.getName() +" "+ s.getDescription() +" "+ s.getStudent());
             }
-
-            Log.v("Mark INIT","Begining\n ...");
             for (MarkEntity m :marks) {
                 Log.v("Mark INIT",m.getName() +" " + m.getValue()+" " + m.getStudent() +" "+ m.getSubject());
             }

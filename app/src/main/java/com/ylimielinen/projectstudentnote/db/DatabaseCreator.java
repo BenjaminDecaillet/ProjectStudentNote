@@ -3,11 +3,13 @@ package com.ylimielinen.projectstudentnote.db;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.ylimielinen.projectstudentnote.db.AppDatabase.DATABASE_NAME;
@@ -43,6 +45,10 @@ public class DatabaseCreator {
         return myDb;
     }
 
+    private static boolean doesDatabaseExist(Context context, String dbName) {
+        File dbFile = context.getDatabasePath(dbName);
+        return dbFile.exists();
+    }
     /**
      * Creates or returns a previously-created database.
      * <p>
@@ -51,7 +57,6 @@ public class DatabaseCreator {
     public void createDb(Context context) {
 
         Log.d("DatabaseCreator", "Creating DB from " + Thread.currentThread().getName());
-
         new AsyncTask<Context, Void, Void>() {
 
             @Override
@@ -64,8 +69,9 @@ public class DatabaseCreator {
                 context.deleteDatabase(DATABASE_NAME);
 
                 // Build the database!
-                AppDatabase db = Room.databaseBuilder(context.getApplicationContext(),
-                        AppDatabase.class, DATABASE_NAME).build();
+//                    AppDatabase db = getDatabase();
+                AppDatabase db =  Room.databaseBuilder(context.getApplicationContext(),
+                                        AppDatabase.class, DATABASE_NAME).build();
 
                 // Add some data to the database
                 InitDatabase.initializeDb(db);
@@ -80,6 +86,7 @@ public class DatabaseCreator {
 
             }
         }.execute(context.getApplicationContext());
+
     }
 
 }
