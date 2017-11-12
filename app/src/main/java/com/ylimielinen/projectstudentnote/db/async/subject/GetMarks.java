@@ -22,6 +22,6 @@ public class GetMarks extends AsyncTask<Long, Void, List<MarkEntity>> {
     @Override
     protected List<MarkEntity> doInBackground(Long... longs) {
         DatabaseCreator dbCreator = DatabaseCreator.getInstance(mContext);
-        return dbCreator.getDatabase().markDao().getMarksOfSubjectSynch(longs[0]);
+        return dbCreator.getDatabase().markDao().getMarksOfSubjectSync(longs[0]);
     }
 }

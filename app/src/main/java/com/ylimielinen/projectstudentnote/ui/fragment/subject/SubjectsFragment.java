@@ -1,6 +1,5 @@
 package com.ylimielinen.projectstudentnote.ui.fragment.subject;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +18,8 @@ import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetSubjects;
 import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
-import com.ylimielinen.projectstudentnote.ui.activity.MarkActivity;
 import com.ylimielinen.projectstudentnote.ui.adapter.SubjectAdapter;
+import com.ylimielinen.projectstudentnote.ui.fragment.mark.MarksFragment;
 import com.ylimielinen.projectstudentnote.util.ClickListener;
 import com.ylimielinen.projectstudentnote.util.RecyclerTouchListener;
 
@@ -40,8 +39,6 @@ public class SubjectsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainActivity) getActivity()).setTitle(getString(R.string.title_fragment_subjects));
-
-        //viewModel = ViewModelProviders.of(this).get(SubjectListViewModel.class);
     }
 
     @Override
@@ -61,28 +58,34 @@ public class SubjectsFragment extends Fragment {
         });
 
         // Add subjects list
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.subjectsRecyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.subjectsRecyclerView);
         try {
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(), LinearLayoutManager.VERTICAL);
-            rv.addItemDecoration(dividerItemDecoration);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
+            recyclerView.addItemDecoration(dividerItemDecoration);
 
             // Get the logged user to get his subjects
             SharedPreferences settings = getContext().getSharedPreferences(MainActivity.PREFS_NAME, 0);
             String loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
             subjects = new GetSubjects(getContext()).execute(loggedInEmail).get();
-            rv.setAdapter(new SubjectAdapter(subjects));
+            recyclerView.setAdapter(new SubjectAdapter(subjects));
 
             // On click listener
-            rv.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rv, new ClickListener() {
+            recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
                 // TODO: display marks linked to this subject and the student IN A FRAGMENT
                 @Override
                 public void onClick(View view, int position) {
                     SubjectEntity subject = subjects.get(position);
-                    //Get Subject Clicked
-                    Intent intent = new Intent(getActivity(), MarkActivity.class);
-                    intent.putExtra("idSubject", subject.getIdSubject());
-                    startActivity(intent);
+
+                    MarksFragment mf = new MarksFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("idSubject", subject.getIdSubject());
+                    mf.setArguments(bundle);
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.flContent, mf, "ShowMarks")
+                            .addToBackStack("marksStudentLoggedIn")
+                            .commit();
                 }
 
                 // TODO: Ask to delete the subject

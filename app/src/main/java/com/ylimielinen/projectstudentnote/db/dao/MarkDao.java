@@ -48,11 +48,14 @@ public abstract class MarkDao {
     public abstract LiveData<List<MarkEntity>> getMarksOfStudent(String student);
 
     @Query("SELECT * FROM marks WHERE student=:student")
-    public abstract List<MarkEntity> getMarksOfStudentSynch(String student);
+    public abstract List<MarkEntity> getMarksOfStudentSync(String student);
 
     @Query("SELECT * FROM marks WHERE subject=:idSubject")
     public abstract LiveData<List<MarkEntity>> getMarksOfSubject(Long idSubject);
 
     @Query("SELECT * FROM marks WHERE subject=:idSubject")
-    public abstract List<MarkEntity> getMarksOfSubjectSynch(Long idSubject);
+    public abstract List<MarkEntity> getMarksOfSubjectSync(Long idSubject);
+
+    @Query("SELECT * FROM marks WHERE subject=:idSubject AND student=:student")
+    public abstract List<MarkEntity> getMarksOfSubjectByStudentSync(Long idSubject, String student);
 }

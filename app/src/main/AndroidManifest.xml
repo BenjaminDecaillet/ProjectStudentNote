@@ -23,8 +23,6 @@
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.MarkActivity">
-        </activity>
         <activity android:name=".ui.activity.subject.EditSubjectActivity"></activity>
     </application>
 

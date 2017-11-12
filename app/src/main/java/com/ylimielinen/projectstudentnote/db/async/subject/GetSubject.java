@@ -18,8 +18,8 @@ public class GetSubject extends AsyncTask<Long, Void, SubjectEntity>{
         mContext = context;
     }
 
-        @Override
-        protected SubjectEntity doInBackground(Long... longs) {
+    @Override
+    protected SubjectEntity doInBackground(Long... longs) {
         DatabaseCreator dbCreator = DatabaseCreator.getInstance(mContext);
         return dbCreator.getDatabase().subjectDao().getByIdSync(longs[0]);
     }
