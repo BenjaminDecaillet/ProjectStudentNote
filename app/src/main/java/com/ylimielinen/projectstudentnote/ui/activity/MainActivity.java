@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
+import com.ylimielinen.projectstudentnote.ui.fragment.HomeFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.SettingsFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.subject.SubjectsFragment;
 
@@ -39,6 +41,10 @@ public class MainActivity extends BaseActivity
     private Boolean admin;
     private String loggedInEmail;
     private StudentEntity loggedIn;
+    private Fragment fragment;
+    private Class fragmentClass;
+    FragmentManager fragmentManager = getSupportFragmentManager();;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +57,40 @@ public class MainActivity extends BaseActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        if (savedInstanceState == null) {
+            fragment = null;
+            fragmentClass = HomeFragment.class;
+
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
             }
-        });*/
+
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment, BACK_STACK_ROOT_TAG).commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+
+        drawer.closeDrawer(GravityCompat.START);
+
         toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -127,40 +152,55 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-        Fragment fragment = null;
-        Class fragmentClass = null;
+//        Fragment fragment = null;
+//        Class fragmentClass = null;
         String fragmentTag = null;
 
         if (id == R.id.nav_settings) {
-            /*Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;*/
-            //SettingsFragment sFragment = SettingsFragment.newInstance();
-
-
-            fragmentManager.beginTransaction().replace(R.id.flContent, new SettingsFragment()).addToBackStack(BACK_STACK_ROOT_TAG).commit();
+            //Display settings
+            fragmentClass = SettingsFragment.class;
+            fragmentTag = "settings";
+//            try {
+//                fragment = (Fragment) fragmentClass.newInstance();
+//            } catch (InstantiationException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//
+//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }else if(id == R.id.nav_logout){
             // Log user out
             logout();
         }else if (id == R.id.nav_subjects){
             //Display List Subject
-            /*Intent intent = new Intent(this, SubjectsActivity.class);
-            startActivity(intent);
-            return true;*/
             fragmentClass = SubjectsFragment.class;
             fragmentTag = "subjects";
-
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
+//            try {
+//                fragment = (Fragment) fragmentClass.newInstance();
+//            } catch (InstantiationException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//
+//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
+        }else if (id == R.id.nav_home){
+            //Display home screen
+            fragmentClass = HomeFragment.class;
+            fragmentTag = "home";
+//            try {
+//                fragment = (Fragment) fragmentClass.newInstance();
+//            } catch (InstantiationException | IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//
+//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

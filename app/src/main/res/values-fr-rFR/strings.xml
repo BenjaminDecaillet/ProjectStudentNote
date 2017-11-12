@@ -38,4 +38,6 @@
     <string name="save">Sauvegarder</string>
     <string name="title_fragment_mark_create">Ajouter une note</string>
     <string name="title_fragment_mark_edit">Modifier une note</string>
+    <string name="title_fragment_main">Accueil</string>
+    <string name="hello_blank_fragment">Hello fragment vide</string>
 </resources>

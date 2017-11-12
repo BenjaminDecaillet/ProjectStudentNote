@@ -12,7 +12,7 @@ import java.util.List;
  * Created by kb on 12.11.2017.
  */
 
-public class GetMarks extends AsyncTask<Object, Void, List<MarkEntity>> {
+public class GetMarksOfStudentBySubject extends AsyncTask<Object, Void, List<MarkEntity>> {
     @Override
     protected List<MarkEntity> doInBackground(Object... params) {
         DatabaseCreator dbCreator = DatabaseCreator.getInstance((Context)params[0]);

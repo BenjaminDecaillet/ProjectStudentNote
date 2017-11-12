@@ -115,7 +115,8 @@ public class SubjectsFragment extends Fragment {
 
     }
 
-    /*private void observeViewModel(SubjectListViewModel viewModel) {
+    /*
+    private void observeViewModel(SubjectListViewModel viewModel) {
         viewModel.getSubjects().observe(this, new Observer<List<SubjectEntity>>() {
             @Override
             public void onChanged(@Nullable List<SubjectEntity> subjectEntities) {
@@ -126,5 +127,6 @@ public class SubjectsFragment extends Fragment {
                 }
             }
         });
-    }*/
+    }
+    */
 }

@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.mark.GetMarks;
+import com.ylimielinen.projectstudentnote.db.async.mark.GetMarksOfStudentBySubject;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
@@ -83,7 +83,7 @@ public class MarksFragment extends Fragment {
         SharedPreferences settings = getContext().getSharedPreferences(MainActivity.PREFS_NAME, 0);
         String loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
         try {
-            marks = new GetMarks().execute(getContext(), subject, loggedInEmail).get();
+            marks = new GetMarksOfStudentBySubject().execute(getContext(), subject, loggedInEmail).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             marks = new ArrayList<>();

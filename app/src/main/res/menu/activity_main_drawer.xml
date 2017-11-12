@@ -6,6 +6,11 @@
     <group android:id="@+id/nav_drawer_features"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/title_fragment_main" />
+
+        <item
             android:id="@+id/nav_subjects"
             android:icon="@drawable/ic_subject_black_24dp"
             android:title="@string/title_fragment_subjects" />
