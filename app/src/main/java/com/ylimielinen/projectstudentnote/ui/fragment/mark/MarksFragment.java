@@ -33,8 +33,7 @@ public class MarksFragment extends Fragment {
     private RecyclerView recyclerView;
     private long subject;
 
-    public MarksFragment() {
-    }
+    public MarksFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,13 +56,12 @@ public class MarksFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Add a new mark
-                Snackbar.make(view, "Add a new mark", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 EditMarkFragment emf = EditMarkFragment.newInstance(null);
+                // Set subject id
                 Bundle b = emf.getArguments();
                 b.putLong("subjectId", subject);
 
+                // Create the fragment and display it
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.flContent, emf, "EditMark")
                         .addToBackStack("EditMark")
@@ -73,8 +71,6 @@ public class MarksFragment extends Fragment {
 
         // Add marks list
         recyclerView = (RecyclerView) view.findViewById(R.id.marksRecyclerView);
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -89,30 +85,23 @@ public class MarksFragment extends Fragment {
             marks = new ArrayList<>();
         }
 
-
         recyclerView.setAdapter(new MarkAdapter(marks));
 
         // On click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(View view, int position) {}
+
+            @Override
+            public void onLongClick(View view, int position) {
+                // on long click => open modification view
                 MarkEntity mark = marks.get(position);
-                Toast.makeText(getContext(), "Click on " + mark.getName(), Toast.LENGTH_SHORT).show();
                 EditMarkFragment emf = EditMarkFragment.newInstance(mark);
-                Bundle b = emf.getArguments();
-                b.putLong("subjectId", mark.getSubject());
 
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.flContent, emf, "EditMark")
                         .addToBackStack("EditMark")
                         .commit();
-            }
-
-            // TODO: Ask to delete the subject
-            @Override
-            public void onLongClick(View view, int position) {
-                MarkEntity mark = marks.get(position);
-                Toast.makeText(getContext(), "Long click on " + mark.getName(), Toast.LENGTH_SHORT).show();
             }
         }));
 
@@ -129,5 +118,4 @@ public class MarksFragment extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
-
 }

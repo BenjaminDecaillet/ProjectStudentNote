@@ -65,4 +65,6 @@
     <string name="save">Save</string>
     <string name="title_fragment_mark_create">Create a new mark</string>
     <string name="title_fragment_mark_edit">Edit a mark</string>
+    <string name="error_name_empty">The \'Name\' field can\'t be empty</string>
+    <string name="error_value_empty">The \'Value\' field can\'t be empty</string>
 </resources>

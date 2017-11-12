@@ -45,7 +45,6 @@ public class EditMarkFragment extends Fragment {
      * @param mark mark.
      * @return A new instance of fragment EditMarkFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static EditMarkFragment newInstance(MarkEntity mark) {
         EditMarkFragment fragment = new EditMarkFragment();
         Bundle args = new Bundle();
@@ -114,24 +113,43 @@ public class EditMarkFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveChanges(etName.getText().toString(), Double.parseDouble(etValue.getText().toString()));
-                getActivity().onBackPressed();
+                if(saveChanges(etName.getText().toString(), etValue.getText().toString())) {
+                    ((MainActivity) getActivity()).dismissKeyboard();
+                    getActivity().onBackPressed();
+                }
             }
         });
     }
 
-    private void saveChanges(String name, double value){
+    private boolean saveChanges(String name, String value){
+        if(value.equals("")) {
+            etValue.setError(getString(R.string.error_value_empty));
+            etValue.requestFocus();
+            return false;
+        }
+
+        if(name.equals("")) {
+            etName.setError(getString(R.string.error_name_empty));
+            etName.requestFocus();
+            return false;
+        }
+
+        // Get mark value
+        double markValue = Double.parseDouble(value);
+
         if(editMode){
             mark.setName(name);
-            mark.setValue(value);
+            mark.setValue(markValue);
             new UpdateMark(getContext()).execute(mark);
         }else{
             MarkEntity newMark = new MarkEntity();
-            newMark.setValue(value);
+            newMark.setValue(markValue);
             newMark.setName(name);
             newMark.setStudent(student);
             newMark.setSubject(subjectId);
             new CreateMark(getContext()).execute(newMark);
         }
+
+        return true;
     }
 }

@@ -1,5 +1,7 @@
 package com.ylimielinen.projectstudentnote.ui.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
@@ -205,6 +208,13 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void dismissKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (null != this.getCurrentFocus())
+            imm.hideSoftInputFromWindow(this.getCurrentFocus()
+                    .getApplicationWindowToken(), 0);
     }
 
     private void initNavDrawerContent(){

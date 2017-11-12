@@ -40,4 +40,6 @@
     <string name="title_fragment_mark_edit">Modifier une note</string>
     <string name="title_fragment_main">Accueil</string>
     <string name="hello_blank_fragment">Hello fragment vide</string>
+    <string name="error_name_empty">Le champ \'Nom\' ne peut pas être vide</string>
+    <string name="error_value_empty">Le champ \'Valeur\' ne peut pas être vide</string>
 </resources>
