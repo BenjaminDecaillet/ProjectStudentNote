@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- Blue / default theme -->
+    <color name="colorPrimary">#0277bd</color>
+    <color name="colorPrimaryDark">#004c8c</color>
+    <color name="colorAccent">#58a5f0</color>
 
     <!-- Red Theme -->
-    <color name="colorPrimaryRed">#ff5722</color>
-    <color name="colorPrimaryDarkRed">#e64a19</color>
-    <color name="colorAccentRed">#536dfe</color>
+    <color name="colorPrimaryRed">#d32f2f</color>
+    <color name="colorPrimaryDarkRed">#9a0007</color>
+    <color name="colorAccentRed">#ff6659</color>
 
     <!-- Yellow Theme -->
-    <color name="colorPrimaryYellow">#ffc107</color>
-    <color name="colorPrimaryDarkYellow">#ffa000</color>
-    <color name="colorAccentYellow">#536dfe</color>
+    <color name="colorPrimaryYellow">#fbc02d</color>
+    <color name="colorPrimaryDarkYellow">#c49000</color>
+    <color name="colorAccentYellow">#fff263</color>
 
-    <!-- Teal Theme -->
-    <color name="colorPrimaryGreen">#009688</color>
-    <color name="colorPrimaryDarkGreen">#00796b</color>
-    <color name="colorAccentGreen">#ffd740</color>
+    <!-- Green Theme -->
+    <color name="colorPrimaryGreen">#388e3c</color>
+    <color name="colorPrimaryDarkGreen">#00600f</color>
+    <color name="colorAccentGreen">#6abf69</color>
 </resources>

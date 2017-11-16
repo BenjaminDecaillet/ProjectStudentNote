@@ -20,7 +20,7 @@ public class CreateStudent extends AsyncTask<StudentEntity, Void, Long> {
     }
 
     @Override
-    protected Long doInBackground(StudentEntity... params) throws SQLiteConstraintException {
+    protected Long doInBackground(StudentEntity... params) {
         DatabaseCreator dbCreator = DatabaseCreator.getInstance(mContext);
         return dbCreator.getDatabase().studentDao().insert(params[0]);
     }

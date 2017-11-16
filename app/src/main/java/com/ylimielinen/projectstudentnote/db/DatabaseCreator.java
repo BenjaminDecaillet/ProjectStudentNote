@@ -65,17 +65,9 @@ public class DatabaseCreator {
 
                 Context context = params[0].getApplicationContext();
 
-                // Reset the database to have new data on every run.
-                context.deleteDatabase(DATABASE_NAME);
-
                 // Build the database!
-//                    AppDatabase db = getDatabase();
                 AppDatabase db =  Room.databaseBuilder(context.getApplicationContext(),
                                         AppDatabase.class, DATABASE_NAME).build();
-
-                // Add some data to the database
-                InitDatabase.initializeDb(db);
-                Log.d(TAG, "DB was populated in thread " + Thread.currentThread().getName());
 
                 myDb = db;
                 return null;

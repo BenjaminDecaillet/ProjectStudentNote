@@ -28,7 +28,6 @@ import java.util.concurrent.ExecutionException;
 public class EditSubjectFragment extends Fragment {
     private final String TAG = "EditMarkFragment";
     private static final String ARG_PARAM1 = "subjectId";
-    private static final String ARG_PARAM2 = "studentId";
 
     private String student;
     private boolean editMode;

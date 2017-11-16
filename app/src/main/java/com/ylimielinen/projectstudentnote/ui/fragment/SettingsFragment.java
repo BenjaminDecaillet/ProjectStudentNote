@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
+import com.ylimielinen.projectstudentnote.util.Utils;
 
 import java.util.Locale;
 
@@ -76,14 +77,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private void updateLanguage(Context baseContext, String lang) {
         // Update of the language
-        if (!lang.isEmpty() && baseContext != null) {
-            // Create a new locale and set it as default
-            Locale locale = new Locale(lang);
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            baseContext.getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
+        if (Utils.updateLanguage(baseContext, lang)) {
             // Restart the activity to make changes happen
             Intent intent = getActivity().getIntent();
             startActivity(intent);

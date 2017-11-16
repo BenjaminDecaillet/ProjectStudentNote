@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity
     private StudentEntity loggedIn;
     private Fragment fragment;
     private Class fragmentClass;
-    FragmentManager fragmentManager = getSupportFragmentManager();;
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
 
     @Override
@@ -85,15 +85,14 @@ public class MainActivity extends BaseActivity
 
         toggle.syncState();
 
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initNavDrawerContent();
+        setDrawerBackground();
     }
 
     @Override
     public void onBackPressed() {
-        // TODO: Avoid to re-open login screen and avoid to empty subjects list
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -147,46 +146,21 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        Fragment fragment = null;
-//        Class fragmentClass = null;
         String fragmentTag = null;
 
+        // Define fragment according to pressed menu item
         if (id == R.id.nav_settings) {
             //Display settings
             fragmentClass = SettingsFragment.class;
-            fragmentTag = "settings";
-//            try {
-//                fragment = (Fragment) fragmentClass.newInstance();
-//            } catch (InstantiationException | IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//
-//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }else if(id == R.id.nav_logout){
             // Log user out
             logout();
         }else if (id == R.id.nav_subjects){
             //Display List Subject
             fragmentClass = SubjectsFragment.class;
-            fragmentTag = "subjects";
-//            try {
-//                fragment = (Fragment) fragmentClass.newInstance();
-//            } catch (InstantiationException | IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//
-//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }else if (id == R.id.nav_home){
             //Display home screen
             fragmentClass = HomeFragment.class;
-            fragmentTag = "home";
-//            try {
-//                fragment = (Fragment) fragmentClass.newInstance();
-//            } catch (InstantiationException | IllegalAccessException e) {
-//                e.printStackTrace();
-//            }
-//
-//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
         }
 
         try {
