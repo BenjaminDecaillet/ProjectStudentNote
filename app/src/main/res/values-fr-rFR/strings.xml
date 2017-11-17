@@ -56,6 +56,6 @@
     <string name="register_firstname">Prénom</string>
     <string name="register_lastname">Nom de famille</string>
     <string name="error_email_already_exists">Cette adresse mail est déjà utilisée</string>
-    <string name="markWeighting">Pondération donnée à cette note</string>
+    <string name="markWeighting">Pondération donnée à cette note (Par défaut: 1)</string>
     <string name="average">Moyenne</string>
 </resources>
