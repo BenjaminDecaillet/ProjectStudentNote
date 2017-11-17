@@ -38,6 +38,7 @@ public class MarkEntity implements Mark{
     private Double value;
     private String student;
     private Long subject;
+    private Double weighting;
 
 
     public MarkEntity(Mark mark) {
@@ -46,6 +47,7 @@ public class MarkEntity implements Mark{
         value = mark.getValue();
         student = mark.getStudent();
         subject = mark.getSubject();
+        weighting = mark.getWeighting();
     }
 
     public MarkEntity() {
@@ -73,6 +75,13 @@ public class MarkEntity implements Mark{
 
     @Override
     public Long getSubject() { return subject; }
+
+    @Override
+    public Double getWeighting() {
+        return weighting;
+    }
+
+    public void setWeighting(Double weighting) { this.weighting = weighting; }
 
     public void setSubject(Long subject) { this.subject = subject; }
 

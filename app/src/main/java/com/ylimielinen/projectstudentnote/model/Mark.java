@@ -12,4 +12,5 @@ public interface Mark {
     String getStudent();
     Double getValue();
     Long getSubject();
+    Double getWeighting();
 }

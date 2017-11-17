@@ -39,7 +39,7 @@ public class EditMarkFragment extends Fragment {
     private MarkEntity mark;
     private EditText etName;
     private EditText etValue;
-    private Button deleteBtn;
+    private EditText etWeighting;
 
     public EditMarkFragment() {
         // Required empty public constructor
@@ -130,17 +130,19 @@ public class EditMarkFragment extends Fragment {
         // Fill the form with existing values
         etName.setText(mark.getName());
         etValue.setText(mark.getValue().toString());
+        etWeighting.setText(mark.getWeighting().toString());
     }
 
     private void initForm() {
         // Get GUI elements for the form
         etName = (EditText) getActivity().findViewById(R.id.markNameEditText);
         etValue = (EditText) getActivity().findViewById(R.id.markValueEditText);
+        etWeighting = (EditText) getActivity().findViewById(R.id.markWeightingEditText);
         final Button saveBtn = (Button) getActivity().findViewById(R.id.saveMark);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(saveChanges(etName.getText().toString(), etValue.getText().toString())) {
+                if(saveChanges(etName.getText().toString(), etValue.getText().toString(), etWeighting.getText().toString())) {
                     ((MainActivity) getActivity()).dismissKeyboard();
                     getActivity().onBackPressed();
                 }
@@ -170,30 +172,39 @@ public class EditMarkFragment extends Fragment {
         return;
     }
 
-    private boolean saveChanges(String name, String value){
-        if(value.equals("")) {
-            etValue.setError(getString(R.string.error_value_empty));
-            etValue.requestFocus();
-            return false;
-        }
-
+    private boolean saveChanges(String name, String value, String weighting){
         if(name.equals("")) {
             etName.setError(getString(R.string.error_name_empty));
             etName.requestFocus();
             return false;
         }
 
-        // Get mark value
+        if(value.equals("")) {
+            etValue.setError(getString(R.string.error_value_empty));
+            etValue.requestFocus();
+            return false;
+        }
+
+        if(weighting.equals("")) {
+            etWeighting.setError(getString(R.string.error_field_required));
+            etWeighting.requestFocus();
+            return false;
+        }
+
+        // Get mark value and weighting
         double markValue = Double.parseDouble(value);
+        double markWeighting = Double.parseDouble(weighting);
 
         if(editMode){
             mark.setName(name);
             mark.setValue(markValue);
+            mark.setWeighting(markWeighting);
             new UpdateMark(getContext()).execute(mark);
         }else{
             MarkEntity newMark = new MarkEntity();
             newMark.setValue(markValue);
             newMark.setName(name);
+            newMark.setWeighting(markWeighting);
             newMark.setStudent(student);
             newMark.setSubject(subjectId);
             new CreateMark(getContext()).execute(newMark);
