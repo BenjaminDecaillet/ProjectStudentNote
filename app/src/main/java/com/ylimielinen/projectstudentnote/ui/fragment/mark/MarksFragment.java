@@ -123,12 +123,17 @@ public class MarksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         double moy=-1;
+        double sum =0;
+        double weight=0;
         if(marks.size()>0) {
-            double somme =0;
             for (MarkEntity m : marks) {
-                somme += m.getValue();
+                sum += m.getValue()*m.getWeighting();
+                weight += m.getWeighting();
             }
-            moy = somme / marks.size();
+            if(weight!=0){
+                moy = sum / weight;
+            }
+
         }
         tvMoy = (TextView) getActivity().findViewById(R.id.moySubj);
         if(moy==-1) {
