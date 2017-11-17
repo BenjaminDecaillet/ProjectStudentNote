@@ -185,15 +185,9 @@ public class EditMarkFragment extends Fragment {
             return false;
         }
 
-        if(weighting.equals("")) {
-            etWeighting.setError(getString(R.string.error_field_required));
-            etWeighting.requestFocus();
-            return false;
-        }
-
         // Get mark value and weighting
         double markValue = Double.parseDouble(value);
-        double markWeighting = Double.parseDouble(weighting);
+        double markWeighting = (weighting.equals("")) ? 1.0 : Double.parseDouble(weighting);
 
         if(editMode){
             mark.setName(name);
