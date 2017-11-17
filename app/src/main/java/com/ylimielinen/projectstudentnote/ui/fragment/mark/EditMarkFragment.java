@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -64,6 +67,9 @@ public class EditMarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Define there is an option menu
+        setHasOptionsMenu(true);
+
         // Get logged in student
         SharedPreferences settings = getActivity().getSharedPreferences(MainActivity.PREFS_NAME, 0);
         student = settings.getString(MainActivity.PREFS_USER, null);
@@ -103,6 +109,23 @@ public class EditMarkFragment extends Fragment {
             fillForm();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(editMode)
+            inflater.inflate(R.menu.delete_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.deleteButton:
+                performDeleteWithConfirmation();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void fillForm() {
         // Fill the form with existing values
         etName.setText(mark.getName());
@@ -123,37 +146,28 @@ public class EditMarkFragment extends Fragment {
                 }
             }
         });
+    }
 
-        deleteBtn = (Button) getActivity().findViewById(R.id.deleteMark);
-        if(!editMode)
-            deleteBtn.setVisibility(View.GONE);
-        else{
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle(getString(R.string.delete));
-                    alertDialog.setCancelable(false);
-                    alertDialog.setMessage(getString(R.string.dialog_delete_mark));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.delete), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new DeleteMark(getContext()).execute(mark);
-                            getActivity().onBackPressed();
-                        }
-                    });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            alertDialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
-                    return;
-                }
-            });
-        }
-
+    private void performDeleteWithConfirmation(){
+        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle(getString(R.string.delete));
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage(getString(R.string.dialog_delete_mark));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.delete), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new DeleteMark(getContext()).execute(mark);
+                getActivity().onBackPressed();
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+        return;
     }
 
     private boolean saveChanges(String name, String value){
