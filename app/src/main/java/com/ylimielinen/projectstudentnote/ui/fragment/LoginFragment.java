@@ -116,7 +116,7 @@ public class LoginFragment extends Fragment {
                     editor.putString(MainActivity.PREFS_USER, student.getEmail());
                     editor.apply();
 
-                    // Open the main activity
+                    // Open the delete_menu activity
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     mEmailView.setText("");
