@@ -81,4 +81,5 @@
     <string name="register_firstname">First name</string>
     <string name="register_lastname">Last name</string>
     <string name="error_email_already_exists">This email is already used</string>
+    <string name="average">Average</string>
 </resources>

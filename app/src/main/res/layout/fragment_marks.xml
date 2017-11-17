@@ -1,3 +1,7 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +13,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/marksRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabMarks"
@@ -21,4 +25,16 @@
         android:layout_gravity="bottom|end"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_input_add"/>
-</FrameLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/moySubj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Moyenne"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</RelativeLayout>
