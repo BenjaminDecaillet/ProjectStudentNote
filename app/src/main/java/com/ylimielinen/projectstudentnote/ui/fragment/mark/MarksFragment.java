@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ylimielinen.projectstudentnote.R;
@@ -21,6 +23,8 @@ import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
 import com.ylimielinen.projectstudentnote.util.ClickListener;
 import com.ylimielinen.projectstudentnote.util.RecyclerTouchListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +36,7 @@ public class MarksFragment extends Fragment {
     private List<MarkEntity> marks;
     private RecyclerView recyclerView;
     private long subject;
+    private TextView tvMoy;
 
     public MarksFragment() {}
 
@@ -112,6 +117,27 @@ public class MarksFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setTitle(getString(R.string.title_fragment_marks));
+    }
+
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        double moy=-1;
+        if(marks.size()>0) {
+            double somme =0;
+            for (MarkEntity m : marks) {
+                somme += m.getValue();
+            }
+            moy = somme / marks.size();
+        }
+        tvMoy = (TextView) getActivity().findViewById(R.id.moySubj);
+        if(moy==-1) {
+            tvMoy.setText(getString(R.string.average)+" : -");
+        } else
+        {
+            tvMoy.setText(getString(R.string.average)+" : " + moy);
+        }
+
     }
 
     @Override
