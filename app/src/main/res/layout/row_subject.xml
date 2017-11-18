@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:textStyle="bold"
         tools:text="Subject" />
 
@@ -23,8 +23,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/subjectName"
+        android:layout_alignStart="@+id/subjectName"
         android:layout_below="@+id/subjectName"
         tools:text="Subject Description" />
+
+    <TextView
+        android:id="@+id/subjectAverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/subjectName"
+        android:text="@string/average"
+        android:textAlignment="viewEnd"
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>

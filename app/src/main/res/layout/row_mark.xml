@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:textStyle="bold"
         tools:text="Mark Name" />
 
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/markName"
+        android:layout_alignStart="@+id/markName"
         android:layout_below="@+id/markName"
         tools:text="value" />
 
