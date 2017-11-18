@@ -10,6 +10,8 @@ import java.util.List;
 
 /**
  * Created by decai on 11.11.2017.
+ * Get all subjects of a student
+ * Param = email Student
  */
 
 public class GetSubjects extends AsyncTask<String, Void, List<SubjectEntity>> {

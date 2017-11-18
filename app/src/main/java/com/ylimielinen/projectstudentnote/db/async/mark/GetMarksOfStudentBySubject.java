@@ -10,6 +10,9 @@ import java.util.List;
 
 /**
  * Created by kb on 12.11.2017.
+ * Get marks of a student in a given subject
+ * Param 1 = email Student
+ * Param 2 = idSubject
  */
 
 public class GetMarksOfStudentBySubject extends AsyncTask<Object, Void, List<MarkEntity>> {

@@ -5,10 +5,11 @@ import android.os.AsyncTask;
 
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 
 /**
  * Created by decai on 10.11.2017.
+ * Get a Mark in the Db
+ * Param = IdMark
  */
 
 public class GetMark extends AsyncTask<Long, Void, MarkEntity> {

@@ -2,7 +2,6 @@ package com.ylimielinen.projectstudentnote.db.async.subject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
@@ -11,6 +10,8 @@ import java.util.List;
 
 /**
  * Created by kb on 11.11.2017.
+ * Get the subjects of the Db
+ * Param = null
  */
 public class GetSubjects extends AsyncTask<Long, Void, List<SubjectEntity>> {
     private Context context;

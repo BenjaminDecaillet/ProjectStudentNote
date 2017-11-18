@@ -9,6 +9,8 @@ import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 
 /**
  * Created by decai on 04.11.2017.
+ * Create an entry of a subject in the db
+ * Param = Subject
  */
 
 public class CreateSubject extends AsyncTask<SubjectEntity, Void, Boolean> {

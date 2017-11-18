@@ -8,6 +8,8 @@ import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 
 /**
  * Created by kb on 11.11.2017.
+ * Update a subject in the db
+ * Param = Subject
  */
 
 public class UpdateSubject  extends AsyncTask<SubjectEntity, Void, Void> {

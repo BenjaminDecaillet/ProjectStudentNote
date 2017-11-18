@@ -5,12 +5,13 @@ import android.os.AsyncTask;
 
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 
 import java.util.List;
 
 /**
  * Created by decai on 12.11.2017.
+ * Get Marks of a Student from the DB
+ * Param = email Student
  */
 
 public class GetAllMarksOfStudent extends AsyncTask<String, Void, List<MarkEntity>> {

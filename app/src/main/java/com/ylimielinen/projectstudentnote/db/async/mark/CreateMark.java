@@ -1,7 +1,6 @@
 package com.ylimielinen.projectstudentnote.db.async.mark;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
@@ -9,6 +8,8 @@ import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 
 /**
  * Created by decai on 27.10.2017.
+ * Create an entry in the db for a mark
+ * Param = Mark
  */
 
 public class CreateMark extends AsyncTask<MarkEntity, Void, Long> {

@@ -8,6 +8,8 @@ import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 
 /**
  * Created by decai on 12.11.2017.
+ * Update a student in the db
+ * Param = student list
  */
 
 public class UpdateStudent extends AsyncTask<StudentEntity, Void, Void> {
