@@ -83,4 +83,8 @@
     <string name="error_email_already_exists">This email is already used</string>
     <string name="markWeighting">Weighting given to this mark (Default: 1)</string>
     <string name="average">Average</string>
+    <string name="edit_student_old_password">Type your old password</string>
+    <string name="error_old_password">Old password must be correct</string>
+    <string name="modify_user">Modify user</string>
+    <string name="register_user">Register</string>
 </resources>

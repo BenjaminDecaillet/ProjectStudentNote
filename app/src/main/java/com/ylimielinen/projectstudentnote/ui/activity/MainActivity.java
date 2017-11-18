@@ -24,6 +24,7 @@ import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 import com.ylimielinen.projectstudentnote.ui.fragment.HomeFragment;
+import com.ylimielinen.projectstudentnote.ui.fragment.RegisterFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.SettingsFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.subject.SubjectsFragment;
 
@@ -135,19 +136,30 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_settings) {
             //Display settings
             fragmentClass = SettingsFragment.class;
+            fragmentTag = "Settings";
         }else if(id == R.id.nav_logout){
             // Log user out
             logout();
+            fragmentTag = "Logout";
+        }else if (id == R.id.nav_userprofile){
+            //Display Edit User
+            fragmentClass = RegisterFragment.class;
+            fragmentTag = "EditUser";
         }else if (id == R.id.nav_subjects){
             //Display List Subject
             fragmentClass = SubjectsFragment.class;
+            fragmentTag = "Subjects";
         }else if (id == R.id.nav_home){
             //Display home screen
             fragmentClass = HomeFragment.class;
+            fragmentTag = "Home";
         }
 
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
+            if(fragmentTag.equals("EditUser"))
+                fragment = RegisterFragment.newInstance(true);
+            else
+                fragment = (Fragment) fragmentClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }

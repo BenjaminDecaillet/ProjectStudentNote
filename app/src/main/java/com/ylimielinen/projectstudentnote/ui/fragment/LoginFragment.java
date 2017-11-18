@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = RegisterFragment.newInstance();
+                Fragment fragment = RegisterFragment.newInstance(false);
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.flContentLogin, fragment).addToBackStack(null).commit();
             }
