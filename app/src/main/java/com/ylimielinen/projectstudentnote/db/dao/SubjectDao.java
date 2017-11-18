@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by decai on 04.11.2017.
+ * Functions of the DAO, requests on the databases for the subjects
  */
 @Dao
 public abstract class SubjectDao {

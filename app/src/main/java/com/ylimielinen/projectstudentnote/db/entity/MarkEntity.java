@@ -11,6 +11,7 @@ import com.ylimielinen.projectstudentnote.model.Mark;
 
 /**
  * Created by decai on 04.11.2017.
+ * Entity of the mark with definition of the db
  */
 
 @Entity(tableName = "marks",

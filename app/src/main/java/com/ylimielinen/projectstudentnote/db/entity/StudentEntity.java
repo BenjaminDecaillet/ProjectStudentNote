@@ -9,6 +9,7 @@ import com.ylimielinen.projectstudentnote.model.Student;
 
 /**
  * Created by decai on 27.10.2017.
+ * Entity of the student with definition of the db
  */
 @Entity(tableName = "students", primaryKeys = {"email"})
 public class StudentEntity implements Student{

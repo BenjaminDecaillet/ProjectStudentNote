@@ -7,7 +7,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
-import android.database.sqlite.SQLiteConstraintException;
 
 
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
@@ -16,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by decai on 10.11.2017.
+ * Functions of the DAO, requests on the databases for the marks
  */
 @Dao
 public abstract class MarkDao {

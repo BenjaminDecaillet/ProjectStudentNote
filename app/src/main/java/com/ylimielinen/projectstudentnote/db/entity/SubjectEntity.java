@@ -10,6 +10,7 @@ import com.ylimielinen.projectstudentnote.model.Subject;
 
 /**
  * Created by decai on 04.11.2017.
+ * Entity of the subject with definition of the db
  */
 @Entity(tableName = "subjects",
         foreignKeys =
