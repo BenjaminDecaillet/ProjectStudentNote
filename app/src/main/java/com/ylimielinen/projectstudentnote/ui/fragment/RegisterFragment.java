@@ -1,8 +1,5 @@
 package com.ylimielinen.projectstudentnote.ui.fragment;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +18,9 @@ import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Register fragment for a new student who connect to the app
+ */
 public class RegisterFragment extends Fragment {
     private EditText etFirstName;
     private EditText etLastName;

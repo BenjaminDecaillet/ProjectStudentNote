@@ -1,19 +1,18 @@
 package com.ylimielinen.projectstudentnote.ui.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.ylimielinen.projectstudentnote.R;
 
 
 /**
  * Created by kb on 11.11.2017.
+ * Base Activity who set the preference in memory for the app on launch
  */
 
 public abstract class BaseActivity extends AppCompatActivity {

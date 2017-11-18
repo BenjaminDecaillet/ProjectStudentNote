@@ -36,7 +36,6 @@ public class EditSubjectFragment extends Fragment {
     private SubjectEntity subject;
     private EditText etName;
     private EditText etDescription;
-    private Button deleteBtn;
 
     public EditSubjectFragment() {
     }

@@ -1,21 +1,17 @@
 package com.ylimielinen.projectstudentnote.db;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.io.File;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.ylimielinen.projectstudentnote.db.AppDatabase.DATABASE_NAME;
 
 /**
  * Created by decai on 27.10.2017.
+ * Creator class for the database where we instantiate the db
  */
 
 public class DatabaseCreator {
@@ -45,14 +41,8 @@ public class DatabaseCreator {
         return myDb;
     }
 
-    private static boolean doesDatabaseExist(Context context, String dbName) {
-        File dbFile = context.getDatabasePath(dbName);
-        return dbFile.exists();
-    }
     /**
      * Creates or returns a previously-created database.
-     * <p>
-     * Although this uses an AsyncTask which currently uses a serial executor, it's thread-safe.
      */
     public void createDb(Context context) {
 
