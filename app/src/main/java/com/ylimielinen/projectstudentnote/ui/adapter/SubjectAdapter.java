@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.mark.GetMarksOfStudentBySubject;
 import com.ylimielinen.projectstudentnote.db.async.subject.GetMarks;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
@@ -19,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Created by decai on 11.11.2017.
+ * Adapter for the subject display in the subject list
  */
 
 public class SubjectAdapter extends RecyclerView.Adapter {

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +18,13 @@ import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
 import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
-import com.ylimielinen.projectstudentnote.util.Utils;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Login fragment to display the field nessecary to log in
+ */
 public class LoginFragment extends Fragment {
-    private final String BACK_STACK_ROOT_TAG = "LOGIN_FRAGMENT";
     private static final String TAG = "LoginFragment";
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;

@@ -4,6 +4,7 @@ import android.view.View;
 
 /**
  * Created by kb on 11.11.2017.
+ * interface of the clicklistener
  */
 
 public interface ClickListener {

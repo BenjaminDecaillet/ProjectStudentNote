@@ -11,7 +11,6 @@
         <item>Jaune</item>
         <item>Vert</item>
     </string-array>
-    <string name="action_settings">Paramètres</string>
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
@@ -19,10 +18,8 @@
     <string name="action_sign_in">Connexion</string>
     <string name="action_sign_in_short">Connexion</string>
     <string name="error_invalid_email">Cette adresse email est invalide ou déjà utilisée.</string>
-    <string name="error_invalid_password">Ce mot de passe est trop court (moins de 5 caractères)</string>
     <string name="error_incorrect_password">Ce mot de passe est incorrect</string>
     <string name="error_field_required">Ce champ est requis</string>
-    <string name="pref_title_language">Changer la langue principale</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="pref_header_language">Langue</string>
     <string name="settings_main_group">Principaux paramètres</string>
@@ -30,7 +27,6 @@
     <string name="logout_msg">Voulez-vous vraiment vous déconnecter?</string>
     <string name="action_cancel">Annuler</string>
     <string name="pref_header_theme">Thème</string>
-    <string name="action_subject">Sujet</string>
     <string name="title_fragment_subjects">Sujets</string>
     <string name="title_fragment_marks">Notes</string>
     <string name="markName">Nom de l\'examen</string>
@@ -39,7 +35,6 @@
     <string name="title_fragment_mark_create">Ajouter une note</string>
     <string name="title_fragment_mark_edit">Modifier une note</string>
     <string name="title_fragment_main">Accueil</string>
-    <string name="hello_blank_fragment">Hello fragment vide</string>
     <string name="error_name_empty">Le champ \'Nom\' ne peut pas être vide</string>
     <string name="error_value_empty">Le champ \'Valeur\' ne peut pas être vide</string>
     <string name="delete">Supprimer</string>

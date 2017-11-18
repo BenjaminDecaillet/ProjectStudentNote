@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Created by decai on 12.11.2017.
+ * Adapter for the mark display in the home page
  */
 
 public class HomeMarkAdapter extends RecyclerView.Adapter {

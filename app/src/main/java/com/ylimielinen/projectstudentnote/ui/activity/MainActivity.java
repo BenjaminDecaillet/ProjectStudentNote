@@ -1,6 +1,5 @@
 package com.ylimielinen.projectstudentnote.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -30,6 +28,9 @@ import com.ylimielinen.projectstudentnote.ui.fragment.subject.SubjectsFragment;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Main Activity with fragment Gestion and Main variants
+ */
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,7 +41,6 @@ public class MainActivity extends BaseActivity
     public static final String PREFS_USER = "LoggedIn";
     public static final String PREFS_ADM = "UserPermission";
     public static final String PREFS_LNG = "Language";
-    public static final String PREFS_THEME = "Theme";
 
     private Boolean admin;
     private String loggedInEmail;

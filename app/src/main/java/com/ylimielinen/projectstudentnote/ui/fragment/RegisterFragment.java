@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +25,9 @@ import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Register fragment for a new student who connect to the app
+ */
 public class RegisterFragment extends Fragment {
     private static final String ARG_PARAM1 = "editMode";
 

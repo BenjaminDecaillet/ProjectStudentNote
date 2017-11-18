@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by decai on 27.10.2017.
+ * Functions of the DAO, requests on the databases for the student
  */
 @Dao
 public interface StudentDao {

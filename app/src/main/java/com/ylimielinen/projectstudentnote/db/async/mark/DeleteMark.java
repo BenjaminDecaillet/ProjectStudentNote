@@ -5,10 +5,11 @@ import android.os.AsyncTask;
 
 import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 
 /**
  * Created by kb on 12.11.2017.
+ * Delete a Mark in the db
+ * Param = Mark
  */
 
 public class DeleteMark extends AsyncTask<MarkEntity, Void, Void>{

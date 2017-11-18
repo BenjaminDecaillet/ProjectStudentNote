@@ -11,6 +11,7 @@ import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 /**
  * Created by kb on 11.11.2017.
  * Source : https://www.androidhive.info/2016/01/android-working-with-recycler-view/
+ * Class for the recyclertouchListener
  */
 
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {

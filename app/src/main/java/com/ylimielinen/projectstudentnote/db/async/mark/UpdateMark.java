@@ -8,6 +8,8 @@ import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 
 /**
  * Created by decai on 12.11.2017.
+ * Update a Mark in the db
+ * Param = Mark
  */
 
 public class UpdateMark extends AsyncTask<MarkEntity, Void, Void> {

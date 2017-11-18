@@ -8,6 +8,8 @@ import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 
 /**
  * Created by decai on 04.11.2017.
+ * Get a subject in the db
+ * Param = idSubject
  */
 
 public class GetSubject extends AsyncTask<Long, Void, SubjectEntity>{

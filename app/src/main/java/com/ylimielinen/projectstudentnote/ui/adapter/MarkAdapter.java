@@ -1,22 +1,19 @@
 package com.ylimielinen.projectstudentnote.ui.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
  * Created by decai on 11.11.2017.
+ * Adapter for the mark display in a subject
  */
 
 public class MarkAdapter extends RecyclerView.Adapter {

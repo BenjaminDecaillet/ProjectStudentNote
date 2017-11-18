@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.mark.GetMarksOfStudentBySubject;
@@ -23,8 +20,6 @@ import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
 import com.ylimielinen.projectstudentnote.util.ClickListener;
 import com.ylimielinen.projectstudentnote.util.RecyclerTouchListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

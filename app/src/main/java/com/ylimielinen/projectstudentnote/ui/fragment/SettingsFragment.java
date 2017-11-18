@@ -3,7 +3,6 @@ package com.ylimielinen.projectstudentnote.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,10 +14,10 @@ import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 import com.ylimielinen.projectstudentnote.util.Utils;
 
-import java.util.Locale;
 
 /**
  * Created by kb on 03.11.2017.
+ * Settings fragment where we can modify our preference for the app
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 

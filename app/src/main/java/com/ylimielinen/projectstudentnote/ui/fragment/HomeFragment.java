@@ -1,12 +1,8 @@
 package com.ylimielinen.projectstudentnote.ui.fragment;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,27 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.db.async.student.GetAllMarksOfStudent;
-import com.ylimielinen.projectstudentnote.db.async.student.GetSubjects;
 import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 import com.ylimielinen.projectstudentnote.ui.adapter.HomeMarkAdapter;
-import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
-import com.ylimielinen.projectstudentnote.ui.adapter.SubjectAdapter;
 import com.ylimielinen.projectstudentnote.ui.fragment.mark.EditMarkFragment;
-import com.ylimielinen.projectstudentnote.ui.fragment.mark.MarksFragment;
 import com.ylimielinen.projectstudentnote.util.ClickListener;
 import com.ylimielinen.projectstudentnote.util.RecyclerTouchListener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-
+/**
+ * Home fragment to display all notes of the student logged in
+ */
 public class HomeFragment extends Fragment {
     private static final String TAG = "SubjectsFragment";
 
@@ -106,19 +97,5 @@ public class HomeFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState);
 
     }
-
-
-//    private void observeViewModel(SubjectListViewModel viewModel) {
-//        viewModel.getSubjects().observe(this, new Observer<List<SubjectEntity>>() {
-//            @Override
-//            public void onChanged(@Nullable List<SubjectEntity> subjectEntities) {
-//                if (subjectEntities != null) {
-//                    subjects = subjectEntities;
-//                    ((RecyclerAdapter) recyclerView.getAdapter()).setData(subjects);
-//                    recyclerView.getAdapter().notifyDataSetChanged();
-//                }
-//            }
-//        });
-//    }
 
 }

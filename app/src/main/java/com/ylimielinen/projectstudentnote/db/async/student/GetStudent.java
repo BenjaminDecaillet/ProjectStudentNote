@@ -8,6 +8,8 @@ import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
 
 /**
  * Created by decai on 03.11.2017.
+ * Get a student in the DB
+ * Param = email Student
  */
 
 public class GetStudent extends AsyncTask<String, Void, StudentEntity> {
