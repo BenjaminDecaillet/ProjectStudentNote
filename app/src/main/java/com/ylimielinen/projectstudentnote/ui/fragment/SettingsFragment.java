@@ -21,6 +21,10 @@ import com.ylimielinen.projectstudentnote.util.Utils;
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    public static SettingsFragment newInstance() {
+        return new SettingsFragment();
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Load the Preferences from the XML file

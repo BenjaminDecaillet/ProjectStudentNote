@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -59,7 +60,7 @@ public class MainActivity extends BaseActivity
         SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
         loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -77,7 +78,7 @@ public class MainActivity extends BaseActivity
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment, BACK_STACK_ROOT_TAG).commit();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity
 
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initNavDrawerContent();
         setDrawerBackground();
@@ -94,7 +95,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -130,7 +131,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        String fragmentTag = null;
+        String fragmentTag = "";
 
         // Define fragment according to pressed menu item
         if (id == R.id.nav_settings) {
@@ -163,11 +164,32 @@ public class MainActivity extends BaseActivity
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(BACK_STACK_ROOT_TAG).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragmentTag).commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Get menu item clicked
+        int id = item.getItemId();
+
+        // open settings fragment
+        if (id == R.id.action_settings) {
+            setTitle(R.string.title_activity_settings);
+            fragmentManager.beginTransaction().replace(R.id.flContent, SettingsFragment.newInstance()).addToBackStack("Settings").commit();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void dismissKeyboard() {
@@ -178,10 +200,10 @@ public class MainActivity extends BaseActivity
     }
 
     private void initNavDrawerContent(){
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         final View headerLayout = navigationView.getHeaderView(0);
-        TextView studentEmail = (TextView) headerLayout.findViewById(R.id.userEmail);
-        TextView studentName = (TextView) headerLayout.findViewById(R.id.userName);
+        TextView studentEmail = headerLayout.findViewById(R.id.userEmail);
+        TextView studentName = headerLayout.findViewById(R.id.userName);
 
         try {
             loggedIn = new GetStudent(getApplicationContext()).execute(loggedInEmail).get();
@@ -201,6 +223,12 @@ public class MainActivity extends BaseActivity
         editor.remove(PREFS_USER);
         editor.remove(PREFS_ADM);
         editor.apply();
+
+        // Empty backstack if logout from another fragment than home
+        int count = fragmentManager.getBackStackEntryCount();
+        for(int i = 0; i < count; ++i) {
+            fragmentManager.popBackStack();
+        }
 
         // Start login activity
         Intent intent = new Intent(this, LoginActivity.class);
