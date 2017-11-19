@@ -112,7 +112,8 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(registerUser()){
-                    updateUserName();
+                    if(editMode)
+                        updateUserName();
                     getActivity().onBackPressed();
                 }
             }
