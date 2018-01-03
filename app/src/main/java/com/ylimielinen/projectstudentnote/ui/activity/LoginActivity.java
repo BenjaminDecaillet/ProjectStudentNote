@@ -4,8 +4,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceManager;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.DatabaseCreator;
 import com.ylimielinen.projectstudentnote.ui.fragment.LoginFragment;
 import com.ylimielinen.projectstudentnote.util.Utils;
 
@@ -14,7 +16,7 @@ import com.ylimielinen.projectstudentnote.util.Utils;
  */
 public class LoginActivity extends BaseActivity {
     private final String BACK_STACK_ROOT_TAG = "LOGIN_ACTIVITY";
-    private DatabaseCreator db;
+    //private DatabaseCreator db;
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
@@ -28,9 +30,6 @@ public class LoginActivity extends BaseActivity {
         Utils.updateLanguage(getApplicationContext(), lang);
 
         setContentView(R.layout.activity_login);
-
-        final DatabaseCreator databaseCreator = DatabaseCreator.getInstance(this.getApplication());
-        databaseCreator.createDb(this.getApplication());
 
         fragmentManager.beginTransaction().replace(R.id.flContentLogin, LoginFragment.newInstance(), BACK_STACK_ROOT_TAG).commit();
     }

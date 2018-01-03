@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.subject.GetSubject;
-import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
+import com.ylimielinen.projectstudentnote.entity.MarkEntity;
+import com.ylimielinen.projectstudentnote.entity.SubjectEntity;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -40,11 +39,11 @@ public class HomeMarkAdapter extends RecyclerView.Adapter {
         HomeMarkAdapter.HomeMarkViewHolder mvh = (HomeMarkAdapter.HomeMarkViewHolder)holder;
 
         SubjectEntity subject = null;
-        try {
+        /*try {
             subject = new GetSubject(context).execute(mark.getSubject()).get();
         } catch (InterruptedException | ExecutionException e ) {
             e.printStackTrace();
-        }
+        }*/
 
         mvh.subjectName.setText(subject.getName().toString());
         mvh.markValue.setText(mark.getValue().toString());

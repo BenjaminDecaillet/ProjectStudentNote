@@ -1,6 +1,7 @@
 package com.ylimielinen.projectstudentnote.ui.fragment.mark;
 
-import android.content.SharedPreferences;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,9 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.mark.GetMarksOfStudentBySubject;
-import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
+import com.ylimielinen.projectstudentnote.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
 import com.ylimielinen.projectstudentnote.ui.adapter.MarkAdapter;
 import com.ylimielinen.projectstudentnote.util.ClickListener;
@@ -23,27 +29,43 @@ import com.ylimielinen.projectstudentnote.util.RecyclerTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MarksFragment extends Fragment {
     private static final String TAG = "MarksFragment";
 
     private List<MarkEntity> marks;
     private RecyclerView recyclerView;
-    private long subject;
+    private MarkAdapter markAdapter;
+
+    private Activity activity;
+
+    private String subjectUuid;
     private TextView tvMoy;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference, markReference, subjectMarksReference;
+    private FirebaseUser mUser;
+
+    private ValueEventListener marksListener;
+    private ValueEventListener subjectMarksListener;
 
     public MarksFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).setTitle(getString(R.string.title_fragment_marks));
+        activity.setTitle(getString(R.string.title_fragment_marks));
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            subject = bundle.getLong("idSubject", -1);
+            subjectUuid = bundle.getString("subjectUuid", "-1");
         }
+
+        // get firebase database and useful references
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
+        markReference = mReference.child("marks");
+        subjectMarksReference = mReference.child("subjectMarks").child(subjectUuid);
     }
 
     @Override
@@ -57,12 +79,12 @@ public class MarksFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 EditMarkFragment emf = EditMarkFragment.newInstance(null);
-                // Set subject id
+                // Set subjectUuid id
                 Bundle b = emf.getArguments();
-                b.putLong("subjectId", subject);
+                b.putString("subjectUuid", subjectUuid);
 
                 // Create the fragment and display it
-                getActivity().getSupportFragmentManager().beginTransaction()
+                ((MainActivity)activity).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.flContent, emf, "EditMark")
                         .addToBackStack("EditMark")
                         .commit();
@@ -75,17 +97,10 @@ public class MarksFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        // Get the logged user to get his subjects
-        SharedPreferences settings = getContext().getSharedPreferences(MainActivity.PREFS_NAME, 0);
-        String loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
-        try {
-            marks = new GetMarksOfStudentBySubject().execute(getContext(), subject, loggedInEmail).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            marks = new ArrayList<>();
-        }
-
-        recyclerView.setAdapter(new MarkAdapter(marks));
+        // Create the adapter and link it with recyclerview
+        marks = new ArrayList<>();
+        markAdapter = new MarkAdapter(marks);
+        recyclerView.setAdapter(markAdapter);
 
         // On click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
@@ -98,7 +113,7 @@ public class MarksFragment extends Fragment {
                 MarkEntity mark = marks.get(position);
                 EditMarkFragment emf = EditMarkFragment.newInstance(mark);
 
-                getActivity().getSupportFragmentManager().beginTransaction()
+                ((MainActivity)activity).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.flContent, emf, "EditMark")
                         .addToBackStack("EditMark")
                         .commit();
@@ -108,15 +123,102 @@ public class MarksFragment extends Fragment {
         return view;
     }
 
+    private void createMarkListener(){
+        if(marksListener == null){
+            marksListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue() != null){
+                        MarkEntity markEntity = dataSnapshot.getValue(MarkEntity.class);
+                        markEntity.setUid(dataSnapshot.getKey());
+
+                        // update or adds mark
+                        if(marks.contains(markEntity)) {
+                            marks.set(marks.indexOf(markEntity), markEntity);
+                        }else {
+                            marks.add(markEntity);
+                        }
+                    }else{
+                        // remove mark
+                        MarkEntity markEntity = new MarkEntity();
+                        markEntity.setUid(dataSnapshot.getKey());
+                        marks.remove(markEntity);
+                    }
+
+                    // update recyclerview
+                    markAdapter.notifyDataSetChanged();
+                    getAverage();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+        }
+    }
+
+    private void createSubjectMarksListener(){
+        subjectMarksListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot mark : dataSnapshot.getChildren()){
+                    markReference.child(mark.getKey()).addValueEventListener(marksListener);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+    }
+
+    private void removeSubjectMarksListener(){
+        subjectMarksListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot mark : dataSnapshot.getChildren()){
+                    markReference.child(mark.getKey()).removeEventListener(marksListener);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setTitle(getString(R.string.title_fragment_marks));
+        activity.setTitle(getString(R.string.title_fragment_marks));
+        createMarkListener();
+        createSubjectMarksListener();
+        subjectMarksReference.addValueEventListener(subjectMarksListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        subjectMarksReference.removeEventListener(subjectMarksListener);
+        removeSubjectMarksListener();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        activity = (Activity) context;
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
 
+    private void getAverage(){
         double moy=-1;
         double sum =0;
         double weight=0;
@@ -130,18 +232,21 @@ public class MarksFragment extends Fragment {
             }
 
         }
-        tvMoy = (TextView) getActivity().findViewById(R.id.moySubj);
-        if(moy==-1) {
-            tvMoy.setText(getString(R.string.average)+" : -");
-        } else
-        {
-            tvMoy.setText(getString(R.string.average)+" : " + moy);
+        if(isAdded()){
+            tvMoy = activity.findViewById(R.id.moySubj);
+            if(moy==-1) {
+                tvMoy.setText(getString(R.string.average)+" : -");
+            } else
+            {
+                tvMoy.setText(getString(R.string.average)+" : " + moy);
+            }
         }
-
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
+
+
 }

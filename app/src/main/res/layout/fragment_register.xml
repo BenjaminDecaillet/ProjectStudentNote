@@ -92,6 +92,6 @@
         android:id="@+id/confirm_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register_button" />
+        android:text="@string/action_register" />
 
 </LinearLayout>

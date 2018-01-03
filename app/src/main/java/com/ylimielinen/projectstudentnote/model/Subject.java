@@ -7,7 +7,7 @@ package com.ylimielinen.projectstudentnote.model;
 
 public interface Subject {
     //Id
-    Long getIdSubject();
+    String getUid();
     //Columns
     String getName();
     String getDescription();

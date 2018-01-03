@@ -68,7 +68,7 @@
     <string name="title_fragment_subject_create">Create a new Subject</string>
     <string name="title_fragment_subject_edit">Edit a subject</string>
     <string name="dialog_delete_subject">Do you really want to delete this subject?</string>
-    <string name="register_button">Register</string>
+    <string name="register_button">No account yet? Create one</string>
     <string name="register_password">Enter your password</string>
     <string name="register_confirm_password">Confirm your password</string>
     <string name="error_password_mismatch">Passwords are different</string>
@@ -81,4 +81,12 @@
     <string name="error_old_password">Old password must be correct</string>
     <string name="modify_user">Modify user</string>
     <string name="register_user">Register</string>
+    <string name="error_password_too_short">Your password is too short (&lt; 6 characters)</string>
+    <string name="subject_created">Subject has been successfully created!</string>
+    <string name="subject_updated">Your subject has been successfully updated</string>
+    <string name="mark_created">Mark has been successfully created</string>
+    <string name="mark_updated">Your mark has been successfully updated</string>
+    <string name="password_update_completion">Your password has been updated</string>
+    <string name="password_update_failure">Your password couldn\'t be changed</string>
+    <string name="action_register">Create account</string>
 </resources>

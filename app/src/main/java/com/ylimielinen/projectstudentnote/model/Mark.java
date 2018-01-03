@@ -7,11 +7,10 @@ package com.ylimielinen.projectstudentnote.model;
 
 public interface Mark {
     //Id
-    Long getIdMark();
+    String getUid();
     //Columns
     String getName();
-    String getStudent();
     Double getValue();
-    Long getSubject();
+    String getSubject();
     Double getWeighting();
 }

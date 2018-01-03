@@ -44,7 +44,7 @@
     <string name="title_fragment_subject_create">Ajouter une matière</string>
     <string name="title_fragment_subject_edit">Modifier une matière</string>
     <string name="dialog_delete_subject">Voulez-vous vraiment supprimer cette matière?</string>
-    <string name="register_button">S\'inscrire</string>
+    <string name="register_button">Vous n\'avez pas de compte? Créez-en un</string>
     <string name="register_password">Entrez votre mot de passe</string>
     <string name="register_confirm_password">Confirmez votre mot de passe</string>
     <string name="error_password_mismatch">Les mots de passe sont différents</string>
@@ -57,4 +57,12 @@
     <string name="error_old_password">L\'ancien mot de passe doit être correct</string>
     <string name="modify_user">Modifier l\'utilisateur</string>
     <string name="register_user">S\'enregistrer</string>
+    <string name="error_password_too_short">Votre mot de passe est trop court (&lt; 6 caractères)</string>
+    <string name="subject_created">Création du sujet réussie</string>
+    <string name="subject_updated">Votre sujet a été mis à jour avec succès</string>
+    <string name="mark_created">Création de la note réussie</string>
+    <string name="mark_updated">Votre note a été mise à jour avec succès</string>
+    <string name="password_update_completion">Votre mot de passe a été mis à jour</string>
+    <string name="password_update_failure">Votre mot de passe n\'a pas pu être changé</string>
+    <string name="action_register">Créer un compte</string>
 </resources>

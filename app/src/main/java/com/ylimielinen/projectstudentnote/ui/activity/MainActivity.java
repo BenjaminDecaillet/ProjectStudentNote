@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
@@ -19,9 +20,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
-import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
+import com.ylimielinen.projectstudentnote.entity.StudentEntity;
 import com.ylimielinen.projectstudentnote.ui.fragment.HomeFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.RegisterFragment;
 import com.ylimielinen.projectstudentnote.ui.fragment.SettingsFragment;
@@ -45,10 +53,19 @@ public class MainActivity extends BaseActivity
 
     private Boolean admin;
     private String loggedInEmail;
-    private StudentEntity loggedIn;
+    private StudentEntity student;
     private Fragment fragment;
     private Class fragmentClass;
     FragmentManager fragmentManager = getSupportFragmentManager();
+
+    private FirebaseDatabase mDb;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference, studentReference;
+    private FirebaseUser mUser;
+    private String uuid;
+
+    private ValueEventListener getStudentValueListener;
 
 
     @Override
@@ -56,6 +73,33 @@ public class MainActivity extends BaseActivity
         setStyle(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // get firebase database and reference
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
+
+        // Get current logged in student
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        uuid = mUser.getUid();
+        Log.d("User UID:", uuid);
+        studentReference = mReference.child("students").child(uuid);
+
+        // create event listener for student
+        getStudentValueListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get student
+                if (dataSnapshot.exists()) {
+                    student = dataSnapshot.getValue(StudentEntity.class);
+
+                    initNavDrawerContent();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
 
         SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
         loggedInEmail = settings.getString(MainActivity.PREFS_USER, null);
@@ -89,8 +133,23 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        initNavDrawerContent();
+
         setDrawerBackground();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        studentReference.addValueEventListener(getStudentValueListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // remove event listener to avoid issues and free resources
+        studentReference.removeEventListener(getStudentValueListener);
     }
 
     @Override
@@ -121,7 +180,6 @@ public class MainActivity extends BaseActivity
         }
 
         super.onBackPressed();
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -141,7 +199,7 @@ public class MainActivity extends BaseActivity
         }else if(id == R.id.nav_logout){
             // Log user out
             logout();
-            fragmentTag = "Logout";
+            return false;
         }else if (id == R.id.nav_userprofile){
             //Display Edit User
             fragmentClass = RegisterFragment.class;
@@ -192,48 +250,33 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void dismissKeyboard() {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (null != this.getCurrentFocus())
-            imm.hideSoftInputFromWindow(this.getCurrentFocus()
-                    .getApplicationWindowToken(), 0);
-    }
-
     private void initNavDrawerContent(){
         NavigationView navigationView = findViewById(R.id.nav_view);
         final View headerLayout = navigationView.getHeaderView(0);
         TextView studentEmail = headerLayout.findViewById(R.id.userEmail);
         TextView studentName = headerLayout.findViewById(R.id.userName);
 
-        try {
-            loggedIn = new GetStudent(getApplicationContext()).execute(loggedInEmail).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        if(loggedIn != null) {
-            studentEmail.setText(loggedIn.getEmail());
-            studentName.setText(String.format("%s %s", loggedIn.getFirstName(), loggedIn.getLastName()));
+        if(student != null) {
+            Log.d("Main", "drawer content");
+            studentEmail.setText(student.getEmail());
+            studentName.setText(String.format("%s %s", student.getFirstName(), student.getLastName()));
         }
     }
 
     private void logout() {
-        // Delete user informations
-        SharedPreferences.Editor editor = getSharedPreferences(MainActivity.PREFS_NAME, 0).edit();
-        editor.remove(PREFS_USER);
-        editor.remove(PREFS_ADM);
-        editor.apply();
+        FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
 
-        // Empty backstack if logout from another fragment than home
-        int count = fragmentManager.getBackStackEntryCount();
-        for(int i = 0; i < count; ++i) {
-            fragmentManager.popBackStack();
-        }
+        FirebaseAuth.getInstance().addAuthStateListener(authListener);
 
-        // Start login activity
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
+        FirebaseAuth.getInstance().signOut();
     }
 }

@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.subject.GetMarks;
-import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
-import com.ylimielinen.projectstudentnote.db.entity.SubjectEntity;
+import com.ylimielinen.projectstudentnote.entity.MarkEntity;
+import com.ylimielinen.projectstudentnote.entity.SubjectEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,9 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class SubjectAdapter extends RecyclerView.Adapter {
-    List<SubjectEntity> subjects;
+    ArrayList<SubjectEntity> subjects;
     private Context context;
-    public SubjectAdapter(List<SubjectEntity> subjects) {
+    public SubjectAdapter(ArrayList<SubjectEntity> subjects) {
         this.subjects = subjects;
     }
 
@@ -40,11 +39,13 @@ public class SubjectAdapter extends RecyclerView.Adapter {
         List<MarkEntity> marks = new ArrayList<>();
         SubjectEntity subject = subjects.get(position);
         SubjectViewHolder sbvh = ((SubjectViewHolder)holder);
-        try {
+
+
+        /*try {
             marks = new GetMarks(context).execute(subject.getIdSubject()).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-        }
+        }*/
 
         sbvh.subjectName.setText(subject.getName());
         sbvh.subjectDescription.setText(subject.getDescription());

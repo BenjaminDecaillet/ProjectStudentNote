@@ -1,7 +1,8 @@
 package com.ylimielinen.projectstudentnote.ui.fragment;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,21 +13,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.async.student.CreateStudent;
-import com.ylimielinen.projectstudentnote.db.async.student.GetStudent;
-import com.ylimielinen.projectstudentnote.db.async.student.UpdateStudent;
-import com.ylimielinen.projectstudentnote.db.entity.StudentEntity;
-import com.ylimielinen.projectstudentnote.ui.activity.MainActivity;
-
-import java.util.concurrent.ExecutionException;
+import com.ylimielinen.projectstudentnote.entity.StudentEntity;
+import com.ylimielinen.projectstudentnote.util.Utils;
 
 /**
  * Register fragment for a new student who connect to the app
  */
 public class RegisterFragment extends Fragment {
     private static final String ARG_PARAM1 = "editMode";
+    private static final String TAG = "RegisterFragment";
 
     private EditText etFirstName;
     private EditText etLastName;
@@ -35,8 +44,17 @@ public class RegisterFragment extends Fragment {
     private EditText etConfirmPassword;
     private EditText etOldPassword;
 
+    private Context context;
+
     private StudentEntity student = null;
     private boolean editMode;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference, studentReference;
+    private FirebaseUser mUser;
+    private String uuid;
+
+    private ValueEventListener getStudentValueListener;
 
     public RegisterFragment() {
     }
@@ -55,27 +73,69 @@ public class RegisterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get firebase database and reference
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
+
+        // Get current logged in student
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+
         if(getArguments() != null)
             editMode = getArguments().getBoolean(ARG_PARAM1);
+
+        if(editMode){
+            uuid = mUser.getUid();
+            Log.d("User UID:", uuid);
+            studentReference = mReference.child("students").child(uuid);
+        }
+
+        // create event listener for student
+        getStudentValueListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get student
+                if (dataSnapshot.exists()) {
+                    // Get data
+                    student = dataSnapshot.getValue(StudentEntity.class);
+
+                    // Fill form
+                    fillForm();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         // Get student if editmode
         if(editMode){
             getActivity().setTitle(R.string.modify_user);
-            SharedPreferences settings = getActivity().getSharedPreferences(MainActivity.PREFS_NAME, 0);
-            String studentEmail = settings.getString(MainActivity.PREFS_USER, null);
-            try {
-                this.student = new GetStudent(getContext()).execute(studentEmail).get();
-            } catch (InterruptedException | ExecutionException e) {
-                this.student = null;
-            }
+            studentReference.addValueEventListener(getStudentValueListener);
         }else {
             getActivity().setTitle(R.string.register_user);
         }
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        // remove event listener
+        if(editMode)
+            studentReference.removeEventListener(getStudentValueListener);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context = container.getContext();
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
@@ -87,7 +147,6 @@ public class RegisterFragment extends Fragment {
         if(editMode) {
             // change button text
             ((Button)getActivity().findViewById(R.id.confirm_register_button)).setText(R.string.save);
-            fillForm();
         }
     }
 
@@ -181,19 +240,18 @@ public class RegisterFragment extends Fragment {
                     // Save updated student
                     student.setFirstName(firstName);
                     student.setLastName(lastName);
-                    saveStudent();
+                    updateStudent();
                     return true;
                 }
             }else{
-                if(oldPass.equals(student.getPassword())) {
-                    if (checkPassword(pass1, pass2)) {
-                        // Save updated student
-                        student.setFirstName(firstName);
-                        student.setLastName(lastName);
-                        student.setPassword(pass1);
-                        saveStudent();
-                        return true;
-                    }
+                if (checkPassword(pass1, pass2)) {
+                    // Save updated student
+                    student.setFirstName(firstName);
+                    student.setLastName(lastName);
+                    student.setPassword(pass1);
+                    updateStudent();
+                    updatePassword();
+                    return true;
                 }else {
                     // Old password cannot be empty
                     etOldPassword.setError((getString(R.string.error_incorrect_password)));
@@ -204,37 +262,55 @@ public class RegisterFragment extends Fragment {
         }
 
         // Creation of a new user
-        // Check if password matches and if user already exists and create it
-        if(checkPassword(pass1, pass2) && !isUserAlreadyRegistered(email)){
+        // Check if password matches and create it
+        if(checkPassword(pass1, pass2)){
             StudentEntity student = new StudentEntity();
             student.setEmail(email);
             student.setPassword(pass1);
             student.setFirstName(firstName);
             student.setLastName(lastName);
 
-            new CreateStudent(getContext()).execute(student);
+            addStudent(student);
 
             return true;
         }else
             return false;
     }
 
-    private boolean isUserAlreadyRegistered(String email){
-        try {
-            StudentEntity std = new GetStudent(getContext()).execute(email).get();
-            if(std != null) {
-                etEmail.setError((getString(R.string.error_email_already_exists)));
-                etEmail.requestFocus();
-                return true;
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            Log.d("REGISTER", "User already exists");
-        }
+    private void updateStudent() {
+        // Change student values
+        studentReference.child("firstName").setValue(student.getFirstName());
+        studentReference.child("lastName").setValue(student.getLastName());
+    }
 
-        return false;
+    private void updatePassword(){
+        mUser.updatePassword(student.getPassword().trim())
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(isAdded()){
+                            if (task.isSuccessful()) {
+                                Toast.makeText(context, getString(R.string.password_update_completion), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, getString(R.string.password_update_failure), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        Utils.hideKeyboard(context);
+                    }
+                });
     }
 
     private boolean checkPassword(String pass1, String pass2){
+        // Password length
+        if(pass1.length() < 6){
+            etPassword.setError(getString(R.string.error_password_too_short));
+            etPassword.requestFocus();
+            etPassword.setText("");
+            etConfirmPassword.setText("");
+            return false;
+        }
+
         if(TextUtils.isEmpty(pass1) || TextUtils.isEmpty(pass2)){
             // Passwords cannot be empty
             etPassword.setError((getString(R.string.error_field_required)));
@@ -254,11 +330,55 @@ public class RegisterFragment extends Fragment {
         return true;
     }
 
-    private void saveStudent(){
-        new UpdateStudent(getContext()).execute(student);
+    private void addStudent(final StudentEntity student){
+        FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(student.getEmail(), student.getPassword())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "Student created");
+                            addStudentInFirebase(student);
+                        }else{
+                            // TODO: show errors
+                            FirebaseAuthException e = (FirebaseAuthException )task.getException();
+                            Log.d(TAG, "Student not created " + e.getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void addStudentInFirebase(StudentEntity student){
+        mDatabase.getReference("students")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .setValue(student, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if(databaseError != null){
+                            //TODO: show errors
+
+                            FirebaseAuth.getInstance().getCurrentUser().delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful())
+                                                Log.d(TAG, "ROLLBACK: Student deleted");
+                                            else
+                                                Log.d(TAG, "ROLLBACK: failure", task.getException());
+                                        }
+                                    });
+                        }else{
+                            //TODO: show errors
+                        }
+                    }
+                });
     }
 
     private boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public void getStudent() {
+        studentReference.addValueEventListener(getStudentValueListener);
     }
 }

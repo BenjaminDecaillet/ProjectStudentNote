@@ -1,39 +1,49 @@
-package com.ylimielinen.projectstudentnote.db.entity;
+package com.ylimielinen.projectstudentnote.entity;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.Exclude;
 import com.ylimielinen.projectstudentnote.model.Student;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by decai on 27.10.2017.
  * Entity of the student with definition of the db
  */
-@Entity(tableName = "students", primaryKeys = {"email"})
 public class StudentEntity implements Student{
 
     @NonNull
-    private String email;
+    private String uid;
 
-    @ColumnInfo(name = "firstname")
     private String firstName;
-
-    @ColumnInfo(name = "lastname")
     private String lastName;
-
+    private String email;
     private String password;
-
+    private HashMap<String, String> subjects;
 
     public StudentEntity() {
     }
 
     public StudentEntity(Student student) {
+        uid = student.getUid();
         email = student.getEmail();
         firstName = student.getFirstName();
         lastName = student.getLastName();
         password = student.getPassword();
+        subjects = student.getSubjects();
+    }
+
+    @Exclude
+    @Override
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid){
+        this.uid = uid;
     }
 
     @Override
@@ -63,6 +73,7 @@ public class StudentEntity implements Student{
         this.lastName = lastName;
     }
 
+    @Exclude
     @Override
     public String getPassword() {
         return password;
@@ -73,12 +84,33 @@ public class StudentEntity implements Student{
     }
 
     @Override
+    public HashMap<String, String> getSubjects() {
+        if(subjects == null)
+            subjects = new HashMap<String, String>();
+        return subjects;
+    }
+
+    public void setSubjects(HashMap<String, String> subjects){
+        this.subjects = subjects;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;
         if (!(obj instanceof StudentEntity)) return false;
         StudentEntity o = (StudentEntity) obj;
-        return o.getEmail()==this.getEmail();
+        return o.getUid()==this.getUid();
     }
 
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("email", email);
+        res.put("firstName", firstName);
+        res.put("lastName", lastName);
+        res.put("subjects", subjects);
+
+        return res;
+    }
 }

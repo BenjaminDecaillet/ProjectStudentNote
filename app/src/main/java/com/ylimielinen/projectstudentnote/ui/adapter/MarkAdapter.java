@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ylimielinen.projectstudentnote.R;
-import com.ylimielinen.projectstudentnote.db.entity.MarkEntity;
+import com.ylimielinen.projectstudentnote.entity.MarkEntity;
 
 import java.util.List;
 
