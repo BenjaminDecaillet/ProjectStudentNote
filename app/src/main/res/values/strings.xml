@@ -51,8 +51,6 @@
     <string name="pref_header_theme">Theme</string>
     <string name="title_fragment_subjects">Subjects</string>
     <string name="title_fragment_marks">Marks</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="title_fragment_main">Home</string>
     <string name="markName">Exam name</string>
     <string name="markValue">Exam mark</string>

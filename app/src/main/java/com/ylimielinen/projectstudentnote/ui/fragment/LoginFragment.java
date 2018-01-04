@@ -61,8 +61,7 @@ public class LoginFragment extends Fragment {
     }
 
     public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
+        return new LoginFragment();
     }
 
     @Override
@@ -157,13 +156,12 @@ public class LoginFragment extends Fragment {
             focusView.requestFocus();
         } else {
             // Dialog for login
-            progressDialog = new ProgressDialog(activity,
-                    R.style.Theme_AppCompat_Light_Dialog);
+            progressDialog = new ProgressDialog(activity,R.style.Theme_AppCompat_Light_Dialog);
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage(getString(R.string.action_sign_in));
             progressDialog.show();
-
+            final ProgressDialog progressDialog = ProgressDialog.show(activity, "", "",true);
 
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                 @Override

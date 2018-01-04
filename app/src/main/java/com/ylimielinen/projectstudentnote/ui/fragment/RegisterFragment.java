@@ -340,9 +340,8 @@ public class RegisterFragment extends Fragment {
                             Log.d(TAG, "Student created");
                             addStudentInFirebase(student);
                         }else{
-                            // TODO: show errors
                             FirebaseAuthException e = (FirebaseAuthException )task.getException();
-                            Log.d(TAG, "Student not created " + e.getMessage());
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -355,8 +354,6 @@ public class RegisterFragment extends Fragment {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if(databaseError != null){
-                            //TODO: show errors
-
                             FirebaseAuth.getInstance().getCurrentUser().delete()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -367,8 +364,6 @@ public class RegisterFragment extends Fragment {
                                                 Log.d(TAG, "ROLLBACK: failure", task.getException());
                                         }
                                     });
-                        }else{
-                            //TODO: show errors
                         }
                     }
                 });

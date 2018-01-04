@@ -4,15 +4,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceManager;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.ui.fragment.LoginFragment;
 import com.ylimielinen.projectstudentnote.util.Utils;
 
 /**
- * Login Activity who's call on the launch to login in
+ * Login Activity for login or register fragments
  */
 public class LoginActivity extends BaseActivity {
     private final String BACK_STACK_ROOT_TAG = "LOGIN_ACTIVITY";

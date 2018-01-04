@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = "MainActivity";
-    private final String BACK_STACK_ROOT_TAG = "MAIN";
+    private final String BACK_STACK_ROOT_TAG = "Home";
 
     public static final String PREFS_NAME = "SharedPrefs";
     public static final String PREFS_USER = "LoggedIn";
@@ -158,7 +159,17 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+
+        Fragment home = getSupportFragmentManager().findFragmentByTag("Home");
+
+        if(home == null || !home.isVisible()){
+            try {
+                home = HomeFragment.class.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.flContent, home, BACK_STACK_ROOT_TAG).commit();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }else {
             final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(getString(R.string.action_logout));
             alertDialog.setCancelable(false);
@@ -176,10 +187,7 @@ public class MainActivity extends BaseActivity
                 }
             });
             alertDialog.show();
-            return;
         }
-
-        super.onBackPressed();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -211,7 +219,7 @@ public class MainActivity extends BaseActivity
         }else if (id == R.id.nav_home){
             //Display home screen
             fragmentClass = HomeFragment.class;
-            fragmentTag = "Home";
+            fragmentTag = BACK_STACK_ROOT_TAG;
         }
 
         try {
@@ -222,7 +230,7 @@ public class MainActivity extends BaseActivity
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragmentTag).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment, fragmentTag).commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
