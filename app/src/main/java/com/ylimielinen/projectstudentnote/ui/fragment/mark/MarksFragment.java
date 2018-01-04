@@ -40,6 +40,7 @@ public class MarksFragment extends Fragment {
     private Activity activity;
 
     private String subjectUuid;
+    private String subjectName;
     private TextView tvMoy;
 
     private FirebaseDatabase mDatabase;
@@ -59,6 +60,7 @@ public class MarksFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             subjectUuid = bundle.getString("subjectUuid", "-1");
+            subjectName = bundle.getString("subjectName", "");
         }
 
         // get firebase database and useful references
@@ -193,7 +195,7 @@ public class MarksFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        activity.setTitle(getString(R.string.title_fragment_marks));
+        activity.setTitle(getString(R.string.title_fragment_marks) + " " + subjectName);
         createMarkListener();
         createSubjectMarksListener();
         subjectMarksReference.addValueEventListener(subjectMarksListener);

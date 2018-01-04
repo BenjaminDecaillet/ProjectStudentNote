@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.entity.SubjectEntity;
@@ -21,35 +26,72 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class SubjectAdapter extends RecyclerView.Adapter {
-    ArrayList<SubjectEntity> subjects;
-    private Context context;
+    private ArrayList<SubjectEntity> subjects;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference, subjectMarksReference, markReference;
+
     public SubjectAdapter(ArrayList<SubjectEntity> subjects) {
         this.subjects = subjects;
+
+        // get firebase database and useful references
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
+        subjectMarksReference = mReference.child("subjectMarks");
+        markReference = mReference.child("marks");
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView  = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_subject, parent, false);
-        context = parent.getContext();
         return new SubjectViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        List<MarkEntity> marks = new ArrayList<>();
+        final List<MarkEntity> marks = new ArrayList<>();
         SubjectEntity subject = subjects.get(position);
-        SubjectViewHolder sbvh = ((SubjectViewHolder)holder);
+        final SubjectViewHolder sbvh = ((SubjectViewHolder)holder);
 
+        subjectMarksReference.child(subject.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    for (final DataSnapshot mark :dataSnapshot.getChildren()) {
+                        markReference.child(mark.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                MarkEntity markEntity = dataSnapshot.getValue(MarkEntity.class);
+                                marks.add(markEntity);
 
-        /*try {
-            marks = new GetMarks(context).execute(subject.getIdSubject()).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }*/
+                                double moy = displayAverage(marks);
+
+                                if(moy !=-1) {
+                                    sbvh.subjectAverage.setText(""+moy);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         sbvh.subjectName.setText(subject.getName());
         sbvh.subjectDescription.setText(subject.getDescription());
 
+    }
+
+    private double displayAverage(List<MarkEntity> marks){
         double moy=-1;
         double sum =0;
         double weight=0;
@@ -64,9 +106,7 @@ public class SubjectAdapter extends RecyclerView.Adapter {
 
         }
 
-        if(moy!=-1) {
-            sbvh.subjectAverage.setText(""+moy);
-        }
+        return moy;
     }
 
     @Override

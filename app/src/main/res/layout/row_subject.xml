@@ -35,7 +35,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="10dp"
         android:layout_toEndOf="@+id/subjectName"
-        android:text="@string/average"
         android:textAlignment="viewEnd"
         android:textColor="@android:color/black" />
 

@@ -7,6 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ylimielinen.projectstudentnote.R;
 import com.ylimielinen.projectstudentnote.entity.MarkEntity;
 import com.ylimielinen.projectstudentnote.entity.SubjectEntity;
@@ -20,11 +26,18 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class HomeMarkAdapter extends RecyclerView.Adapter {
-    List<MarkEntity> marks;
-    Context context;
-    public HomeMarkAdapter(List<MarkEntity> marks, Context context) {
+    private List<MarkEntity> marks;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference, subjectReference;
+
+    public HomeMarkAdapter(List<MarkEntity> marks) {
         this.marks = marks;
-        this.context=context;
+
+        // get firebase database and useful references
+        mDatabase = FirebaseDatabase.getInstance();
+        mReference = mDatabase.getReference();
+        subjectReference = mReference.child("subjects");
     }
 
     @Override
@@ -36,16 +49,24 @@ public class HomeMarkAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MarkEntity mark = marks.get(position);
-        HomeMarkAdapter.HomeMarkViewHolder mvh = (HomeMarkAdapter.HomeMarkViewHolder)holder;
+        final HomeMarkAdapter.HomeMarkViewHolder mvh = (HomeMarkAdapter.HomeMarkViewHolder)holder;
 
-        SubjectEntity subject = null;
-        /*try {
-            subject = new GetSubject(context).execute(mark.getSubject()).get();
-        } catch (InterruptedException | ExecutionException e ) {
-            e.printStackTrace();
-        }*/
+        // display mark name, value and its subject
+        subjectReference.child(mark.getSubject()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    SubjectEntity subjectEntity = dataSnapshot.getValue(SubjectEntity.class);
+                    subjectEntity.setUid(dataSnapshot.getKey());
+                    mvh.subjectName.setText(subjectEntity.getName());
+                }
+            }
 
-        mvh.subjectName.setText(subject.getName().toString());
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         mvh.markValue.setText(mark.getValue().toString());
         mvh.markName.setText(mark.getName());
     }

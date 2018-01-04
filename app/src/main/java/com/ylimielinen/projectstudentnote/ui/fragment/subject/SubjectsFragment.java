@@ -103,6 +103,7 @@ public class SubjectsFragment extends Fragment {
                 MarksFragment mf = new MarksFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("subjectUuid", subject.getUid());
+                bundle.putString("subjectName", subject.getName());
                 mf.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction()

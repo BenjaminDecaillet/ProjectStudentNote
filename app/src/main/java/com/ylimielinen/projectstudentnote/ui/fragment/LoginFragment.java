@@ -1,5 +1,6 @@
 package com.ylimielinen.projectstudentnote.ui.fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class LoginFragment extends Fragment {
     private EditText mPasswordView;
     private ProgressDialog progressDialog;
     private Context context;
+    private Activity activity;
 
     public LoginFragment() {
     }
@@ -73,13 +75,21 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getActivity();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        activity = (Activity)context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get the application context
-        context = container.getContext();
+//        context = ((LoginActivity)container).getContext();
 
         // get firebase authentication manager
         mAuth = FirebaseAuth.getInstance();
@@ -110,12 +120,6 @@ public class LoginFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.flContentLogin, fragment).addToBackStack(null).commit();
             }
         });
-
-        // Dialog for login
-        progressDialog = new ProgressDialog(context,
-                R.style.Theme_AppCompat_Light_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.action_sign_in));
 
         return view;
     }
@@ -152,9 +156,15 @@ public class LoginFragment extends Fragment {
             // form field with an error.
             focusView.requestFocus();
         } else {
+            // Dialog for login
+            progressDialog = new ProgressDialog(activity,
+                    R.style.Theme_AppCompat_Light_Dialog);
+            progressDialog.setCancelable(false);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(getString(R.string.action_sign_in));
             progressDialog.show();
 
-            // manage failures inspired by http://www.techotopia.com/index.php/Handling_Firebase_Authentication_Errors_and_Failures#FirebaseAuth_Exception_Types
+
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -165,8 +175,9 @@ public class LoginFragment extends Fragment {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.exists()){
-                                            // Open the main activity activity
+                                            // Open the main activity and close this activity
                                             Intent intent = new Intent(getActivity(), MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
                                             getActivity().finish();
                                         }
@@ -182,6 +193,7 @@ public class LoginFragment extends Fragment {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    // manage failures inspired by http://www.techotopia.com/index.php/Handling_Firebase_Authentication_Errors_and_Failures#FirebaseAuth_Exception_Types
                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
                         mPasswordView.setError(getString(R.string.error_incorrect_password));
                         mPasswordView.setText("");
